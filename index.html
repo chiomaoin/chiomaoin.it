@@ -1,182 +1,272 @@
-<!doctypehtml><html lang=it><script>window.location.pathname.includes("index.html")&&window.history.replaceState({},"","/")</script><meta charset=UTF-8><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"name=viewport><title>chiomaoin</title><link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23EEEEEE'/></svg>"rel=icon><link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css rel=stylesheet><style>body,html{overflow:hidden;height:100%;margin:0;padding:0;position:fixed;width:100%;font-family:Arial,sans-serif;background-color:#eee;display:flex;justify-content:center;align-items:center;text-align:center}.loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background-color:#eee;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:1000;transition:opacity .5s ease-out}.ascii-loader{color:#000;font-family:monospace;pointer-events:none;text-align:center;user-select:none;white-space:pre;width:24px;font-size:24px}.data-container{position:fixed;top:20px;left:20px;font-size:1rem;color:#000;z-index:3;font-family:monospace;text-transform:uppercase;cursor:pointer;text-decoration:none}.lines-container{position:fixed;right:20px;top:20px;cursor:pointer;z-index:20;-webkit-tap-highlight-color:transparent}.line{width:30px;height:2px;background-color:#000;margin-bottom:10px;transform-origin:center;transition:transform .3s ease-in-out}.dark-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background-color:rgba(203,203,203,.8);z-index:5;opacity:0;transition:opacity .5s ease-in-out;pointer-events:none}.dark-overlay.visible{opacity:1;pointer-events:auto}.full-sidebar{position:fixed;top:0;right:-80%;width:80%;height:100vh;background-color:#eee;transition:right .5s ease-in-out;z-index:10;display:flex;flex-direction:column;justify-content:center;align-items:center}.full-sidebar.visible{right:0}.sidebar-header{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:10px}.mobile-trophy-counter{font-family:monospace;font-size:1rem;color:#000;display:flex;align-items:center;gap:5px;cursor:pointer;text-decoration:none;opacity:0;transition:opacity .3s ease-in-out}.mobile-trophy-counter.visible{opacity:1}.centered-text{font-family:Arial,sans-serif;font-size:3rem;font-weight:700;text-transform:uppercase;color:#3f3f3f;position:relative;margin-bottom:40px;text-decoration:none;cursor:pointer}.centered-text::after{content:'';display:block;width:100%;height:2px;background-color:#3f3f3f;position:absolute;bottom:-10px;left:0}.custom-text{font-family:Arial,sans-serif;font-size:3rem;font-weight:700;color:#000;margin-bottom:40px;text-decoration:none}.donut-container{font-family:monospace;white-space:pre;text-align:center;font-size:10px;line-height:10px;color:#000;width:100%;display:flex;justify-content:center}.watermark{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:1rem;color:rgba(0,0,0,.5);z-index:15}.gif-above-watermark-container{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:4;display:flex;justify-content:center;align-items:center;gap:20px}.github-icon,.spotify-icon{font-size:2rem;color:#000;cursor:pointer}.trophy-counter{position:fixed;top:20px;right:20px;font-family:monospace;font-size:1rem;color:#000;display:none;align-items:center;gap:5px;cursor:pointer;text-decoration:none}.trophy-counter i{color:#000}@media (min-width:768px){.lines-container{display:none}.full-sidebar{right:0;width:auto;background:0 0;align-items:flex-end;padding-right:40px}.dark-overlay{display:none}.centered-text,.custom-text{font-size:2rem;margin-bottom:20px}.centered-text::after{height:1px;bottom:-5px}.trophy-counter{display:flex}.mobile-trophy-counter{display:none}.centered-text{pointer-events:auto}}@media (max-width:767px){.trophy-counter{display:none}.centered-text{pointer-events:auto}}</style><div class=loading-screen id=loadingScreen style=display:none><div class=ascii-loader id=asciiLoader></div></div><a class=data-container href=https://it.wikipedia.org/wiki/Calendario_rivoluzionario_francese id=today-date></a> <a class=trophy-counter href=https://psnprofiles.com/DantetiKa target=_blank><i class="fa-solid fa-trophy"></i> <span id=trophy-count>9</span></a><div class=mobile-content><div class=lines-container tabindex=0><div class=line></div><div class=line></div></div><div class=dark-overlay></div><div class=full-sidebar><div class=sidebar-header><a class=mobile-trophy-counter href=https://psnprofiles.com/DantetiKa target=_blank><i class="fa-solid fa-trophy"></i> <span>9</span></a></div><span class="centered-text mobile-home">HOME</span> <a class=custom-text href=untitled.html>[untitled]</a></div><div class=donut-container><pre id=donut></pre></div></div><div class=gif-above-watermark-container><a class=spotify-icon href=https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm><i class="fab fa-spotify"></i> </a><a class=github-icon href="https://github.com/chiomaoin?tab=repositories"><i class="fab fa-github"></i></a></div><div class=watermark>© 2025 Luca Dante</div><script src=https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js></script><script>
-        const styles = {
-            dots2: {
-                frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
-                interval: 50,
+<!doctype html>
+<html lang="it">
+<script>window.location.pathname.includes("index.html")&&window.history.replaceState({},"","/")</script>
+<meta charset=UTF-8>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"name=viewport>
+<title>chiomaoin</title>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23EEEEEE'/></svg>"rel=icon>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css rel=stylesheet>
+<style>
+    /* Regole anti-selezione */
+    body, html {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+    }
+
+    /* Stili esistenti */
+    body,html{overflow:hidden;height:100%;margin:0;padding:0;position:fixed;width:100%;font-family:Arial,sans-serif;background-color:#eee;display:flex;justify-content:center;align-items:center;text-align:center}
+    .loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background-color:#eee;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:1000;transition:opacity .5s ease-out}
+    .ascii-loader{color:#000;font-family:monospace;pointer-events:none;text-align:center;user-select:none;white-space:pre;width:24px;font-size:24px}
+    .data-container{position:fixed;top:20px;left:20px;font-size:1rem;color:#000;z-index:3;font-family:monospace;text-transform:uppercase;cursor:pointer;text-decoration:none}
+    .lines-container{position:fixed;right:20px;top:20px;cursor:pointer;z-index:20;-webkit-tap-highlight-color:transparent}
+    .line{width:30px;height:2px;background-color:#000;margin-bottom:10px;transform-origin:center;transition:transform .3s ease-in-out}
+    .dark-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background-color:rgba(203,203,203,.8);z-index:5;opacity:0;transition:opacity .5s ease-in-out;pointer-events:none}
+    .dark-overlay.visible{opacity:1;pointer-events:auto}
+    .full-sidebar{position:fixed;top:0;right:-80%;width:80%;height:100vh;background-color:#eee;transition:right .5s ease-in-out;z-index:10;display:flex;flex-direction:column;justify-content:center;align-items:center}
+    .full-sidebar.visible{right:0}
+    .sidebar-header{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:10px}
+    .mobile-trophy-counter{font-family:monospace;font-size:1rem;color:#000;display:flex;align-items:center;gap:5px;cursor:pointer;text-decoration:none;opacity:0;transition:opacity .3s ease-in-out}
+    .mobile-trophy-counter.visible{opacity:1}
+    .centered-text{font-family:Arial,sans-serif;font-size:3rem;font-weight:700;text-transform:uppercase;color:#3f3f3f;position:relative;margin-bottom:40px;text-decoration:none;cursor:pointer}
+    .centered-text::after{content:'';display:block;width:100%;height:2px;background-color:#3f3f3f;position:absolute;bottom:-10px;left:0}
+    .custom-text{font-family:Arial,sans-serif;font-size:3rem;font-weight:700;color:#000;margin-bottom:40px;text-decoration:none}
+    .donut-container{font-family:monospace;white-space:pre;text-align:center;font-size:10px;line-height:10px;color:#000;width:100%;display:flex;justify-content:center}
+    .watermark{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:1rem;color:rgba(0,0,0,.5);z-index:15}
+    .gif-above-watermark-container{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:4;display:flex;justify-content:center;align-items:center;gap:20px}
+    .github-icon,.spotify-icon{font-size:2rem;color:#000;cursor:pointer}
+    .trophy-counter{position:fixed;top:20px;right:20px;font-family:monospace;font-size:1rem;color:#000;display:none;align-items:center;gap:5px;cursor:pointer;text-decoration:none}
+    .trophy-counter i{color:#000}
+    @media (min-width:768px){
+        .lines-container{display:none}
+        .full-sidebar{right:0;width:auto;background:0 0;align-items:flex-end;padding-right:40px}
+        .dark-overlay{display:none}
+        .centered-text,.custom-text{font-size:2rem;margin-bottom:20px}
+        .centered-text::after{height:1px;bottom:-5px}
+        .trophy-counter{
+            display:flex;
+            pointer-events: auto;
+        }
+        .mobile-trophy-counter{display:none}
+        .centered-text{pointer-events:auto}
+    }
+    @media (max-width:767px){
+        .trophy-counter{display:none}
+        .centered-text{pointer-events:auto}
+    }
+</style>
+<div class=loading-screen id=loadingScreen style=display:none><div class=ascii-loader id=asciiLoader></div></div>
+<a class=data-container href=https://it.wikipedia.org/wiki/Calendario_rivoluzionario_francese id=today-date></a> 
+<a class=trophy-counter href=https://psnprofiles.com/DantetiKa target=_blank rel="noopener noreferrer"><i class="fa-solid fa-trophy"></i> <span id=trophy-count>9</span></a>
+<div class=mobile-content>
+    <div class=lines-container tabindex=0><div class=line></div><div class=line></div></div>
+    <div class=dark-overlay></div>
+    <div class=full-sidebar>
+        <div class=sidebar-header><a class=mobile-trophy-counter href=https://psnprofiles.com/DantetiKa target=_blank rel="noopener noreferrer"><i class="fa-solid fa-trophy"></i> <span>9</span></a></div>
+        <span class="centered-text mobile-home">HOME</span> 
+        <a class=custom-text href=untitled.html>[untitled]</a>
+    </div>
+    <div class=donut-container><pre id=donut></pre></div>
+</div>
+<div class=gif-above-watermark-container>
+    <a class=spotify-icon href=https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm target=_blank rel="noopener noreferrer"><i class="fab fa-spotify"></i> </a>
+    <a class=github-icon href="https://github.com/chiomaoin?tab=repositories" target=_blank rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+</div>
+<div class=watermark>© 2025 Luca Dante</div>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js></script>
+<script>
+    // Aggiunte per prevenire selezione
+    document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.querySelectorAll('img').forEach(img => { img.ondragstart = () => false; });
+
+    const styles = {
+        dots2: {
+            frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
+            interval: 50,
+        }
+    };
+
+    let asciiLoaderInterval;
+    function startAsciiLoader() {
+        const { frames, interval } = styles.dots2;
+        let i = 0;
+        const loaderElement = document.getElementById('asciiLoader');
+        asciiLoaderInterval = setInterval(() => {
+            loaderElement.textContent = frames[i];
+            i = (i + 1) % frames.length;
+        }, interval);
+    }
+
+    function stopAsciiLoader() {
+        clearInterval(asciiLoaderInterval);
+    }
+
+    function convertToFrenchRepublican(date) {
+        const epochStart = new Date(1792, 8, 22);
+        const currentYearStart = new Date(date.getFullYear(), 8, 22);
+        
+        let republicanYear = date.getFullYear() - 1792;
+        if (date < currentYearStart) republicanYear--;
+        
+        const yearStart = date >= currentYearStart ? currentYearStart : new Date(date.getFullYear() - 1, 8, 22);
+        const dayOfYear = Math.floor((date - yearStart) / (1000 * 60 * 60 * 24)) + 1;
+        
+        const months = ["Vendémiaire", "Brumaire", "Frimaire", "Nivôse", "Pluviôse", "Ventôse", "Germinal", "Floréal", "Prairial", "Messidor", "Thermidor", "Fructidor"];
+        const decadeDays = ["Primidi", "Duodi", "Tridi", "Quartidi", "Quintidi", "Sextidi", "Septidi", "Octidi", "Nonidi", "Décadi"];
+        
+        if (dayOfYear <= 360) {
+            const monthIndex = Math.floor((dayOfYear - 1) / 30);
+            const dayInMonth = (dayOfYear - 1) % 30 + 1;
+            return {
+                dayName: decadeDays[(dayInMonth - 1) % 10],
+                day: dayInMonth,
+                month: months[monthIndex],
+                year: republicanYear
+            };
+        } else {
+            return {
+                dayName: decadeDays[(dayOfYear - 361) % 10],
+                day: dayOfYear - 360,
+                month: "Jours Complémentaires",
+                year: republicanYear
+            };
+        }
+    }
+
+    function formatRevolutionaryDate() {
+        const repDate = convertToFrenchRepublican(new Date());
+        return `${repDate.dayName} ${repDate.day} ${repDate.month} An ${repDate.year}`;
+    }
+
+    (function() {
+        var A = 1, B = 1;
+        var donutElement = document.getElementById('donut');
+        
+        function animateDonut() {
+            var b = [], z = [];
+            A += 0.07;
+            B += 0.03;
+            
+            for(var k = 0; k < 1760; k++) {
+                b[k] = k % 80 == 79 ? "\n" : " ";
+                z[k] = 0;
             }
-        };
-
-        let asciiLoaderInterval;
-        function startAsciiLoader() {
-            const { frames, interval } = styles.dots2;
-            let i = 0;
-            const loaderElement = document.getElementById('asciiLoader');
-            asciiLoaderInterval = setInterval(() => {
-                loaderElement.textContent = frames[i];
-                i = (i + 1) % frames.length;
-            }, interval);
-        }
-
-        function stopAsciiLoader() {
-            clearInterval(asciiLoaderInterval);
-        }
-
-        function convertToFrenchRepublican(date) {
-            const epochStart = new Date(1792, 8, 22);
-            const currentYearStart = new Date(date.getFullYear(), 8, 22);
             
-            let republicanYear = date.getFullYear() - 1792;
-            if (date < currentYearStart) republicanYear--;
-            
-            const yearStart = date >= currentYearStart ? currentYearStart : new Date(date.getFullYear() - 1, 8, 22);
-            const dayOfYear = Math.floor((date - yearStart) / (1000 * 60 * 60 * 24)) + 1;
-            
-            const months = ["Vendémiaire", "Brumaire", "Frimaire", "Nivôse", "Pluviôse", "Ventôse", "Germinal", "Floréal", "Prairial", "Messidor", "Thermidor", "Fructidor"];
-            const decadeDays = ["Primidi", "Duodi", "Tridi", "Quartidi", "Quintidi", "Sextidi", "Septidi", "Octidi", "Nonidi", "Décadi"];
-            
-            if (dayOfYear <= 360) {
-                const monthIndex = Math.floor((dayOfYear - 1) / 30);
-                const dayInMonth = (dayOfYear - 1) % 30 + 1;
-                return {
-                    dayName: decadeDays[(dayInMonth - 1) % 10],
-                    day: dayInMonth,
-                    month: months[monthIndex],
-                    year: republicanYear
-                };
-            } else {
-                return {
-                    dayName: decadeDays[(dayOfYear - 361) % 10],
-                    day: dayOfYear - 360,
-                    month: "Jours Complémentaires",
-                    year: republicanYear
-                };
-            }
-        }
-
-        function formatRevolutionaryDate() {
-            const repDate = convertToFrenchRepublican(new Date());
-            return `${repDate.dayName} ${repDate.day} ${repDate.month} An ${repDate.year}`;
-        }
-
-        (function() {
-            var A = 1, B = 1;
-            var donutElement = document.getElementById('donut');
-            
-            function animateDonut() {
-                var b = [], z = [];
-                A += 0.07;
-                B += 0.03;
-                
-                for(var k = 0; k < 1760; k++) {
-                    b[k] = k % 80 == 79 ? "\n" : " ";
-                    z[k] = 0;
-                }
-                
-                for(var j = 0; j < 6.28; j += 0.07) {
-                    var ct = Math.cos(j), st = Math.sin(j);
-                    for(i = 0; i < 6.28; i += 0.02) {
-                        var sp = Math.sin(i), cp = Math.cos(i),
-                            h = ct + 2,
-                            D = 1 / (sp * h * Math.sin(A) + st * Math.cos(A) + 5),
-                            t = sp * h * Math.cos(A) - st * Math.sin(A);
-                        
-                        var x = 0|(40 + 30 * D * (cp * h * Math.cos(B) - t * Math.sin(B))),
-                            y = 0|(12 + 15 * D * (cp * h * Math.sin(B) + t * Math.cos(B))),
-                            o = x + 80 * y,
-                            N = 0|(8 * ((st * Math.sin(A) - sp * ct * Math.cos(A)) * Math.cos(B) - sp * ct * Math.sin(A) - st * Math.cos(A) - cp * ct * Math.sin(B)));
-                        
-                        if(y < 22 && y >= 0 && x >= 0 && x < 79 && D > z[o]) {
-                            z[o] = D;
-                            b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
-                        }
+            for(var j = 0; j < 6.28; j += 0.07) {
+                var ct = Math.cos(j), st = Math.sin(j);
+                for(i = 0; i < 6.28; i += 0.02) {
+                    var sp = Math.sin(i), cp = Math.cos(i),
+                        h = ct + 2,
+                        D = 1 / (sp * h * Math.sin(A) + st * Math.cos(A) + 5),
+                        t = sp * h * Math.cos(A) - st * Math.sin(A);
+                    
+                    var x = 0|(40 + 30 * D * (cp * h * Math.cos(B) - t * Math.sin(B))),
+                        y = 0|(12 + 15 * D * (cp * h * Math.sin(B) + t * Math.cos(B))),
+                        o = x + 80 * y,
+                        N = 0|(8 * ((st * Math.sin(A) - sp * ct * Math.cos(A)) * Math.cos(B) - sp * ct * Math.sin(A) - st * Math.cos(A) - cp * ct * Math.sin(B)));
+                    
+                    if(y < 22 && y >= 0 && x >= 0 && x < 79 && D > z[o]) {
+                        z[o] = D;
+                        b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
                     }
                 }
-                donutElement.textContent = b.join("");
             }
-            setInterval(animateDonut, 50);
-        })();
+            donutElement.textContent = b.join("");
+        }
+        setInterval(animateDonut, 50);
+    })();
 
-        if (window.innerWidth < 768) {
-            const linesContainer = document.querySelector('.lines-container');
-            const darkOverlay = document.querySelector('.dark-overlay');
-            const fullSidebar = document.querySelector('.full-sidebar');
-            const lines = document.querySelectorAll('.line');
-            const mobileTrophy = document.querySelector('.mobile-trophy-counter');
-            let isOpen = false;
-            let isAnimating = false;
+    if (window.innerWidth < 768) {
+        const linesContainer = document.querySelector('.lines-container');
+        const darkOverlay = document.querySelector('.dark-overlay');
+        const fullSidebar = document.querySelector('.full-sidebar');
+        const lines = document.querySelectorAll('.line');
+        const mobileTrophy = document.querySelector('.mobile-trophy-counter');
+        let isOpen = false;
+        let isAnimating = false;
 
-            if (linesContainer) {
-                linesContainer.addEventListener('click', () => {
-                    if (isAnimating) return;
-                    isAnimating = true;
-                    isOpen = !isOpen;
+        if (linesContainer) {
+            linesContainer.addEventListener('click', () => {
+                if (isAnimating) return;
+                isAnimating = true;
+                isOpen = !isOpen;
 
-                    if (isOpen) {
-                        darkOverlay.classList.add('visible');
-                        fullSidebar.classList.add('visible');
-                        gsap.to(lines[0], { rotation: 45, y: 6, duration: 0.15 });
-                        gsap.to(lines[1], { rotation: -45, y: -6, duration: 0.15 });
-                        
-                        setTimeout(() => {
-                            mobileTrophy.classList.add('visible');
-                        }, 200);
-                        
-                        setTimeout(() => {
-                            isAnimating = false;
-                        }, 300);
-                    } else {
-                        mobileTrophy.classList.remove('visible');
-                        darkOverlay.classList.remove('visible');
-                        fullSidebar.classList.remove('visible');
-                        gsap.to(lines, { rotation: 0, y: 0, duration: 0.15, onComplete: () => isAnimating = false });
-                    }
-                });
-
-                darkOverlay.addEventListener('click', () => {
-                    if (!isOpen || isAnimating) return;
-                    isAnimating = true;
+                if (isOpen) {
+                    darkOverlay.classList.add('visible');
+                    fullSidebar.classList.add('visible');
+                    gsap.to(lines[0], { rotation: 45, y: 6, duration: 0.15 });
+                    gsap.to(lines[1], { rotation: -45, y: -6, duration: 0.15 });
+                    
+                    setTimeout(() => {
+                        mobileTrophy.classList.add('visible');
+                    }, 200);
+                    
+                    setTimeout(() => {
+                        isAnimating = false;
+                    }, 300);
+                } else {
                     mobileTrophy.classList.remove('visible');
                     darkOverlay.classList.remove('visible');
                     fullSidebar.classList.remove('visible');
-                    isOpen = false;
-                    gsap.to(lines, { rotation: 0, y: 0, duration: 0.3, onComplete: () => isAnimating = false });
-                });
-            }
-        }
-
-        const homeElement = document.querySelector('.mobile-home') || document.querySelector('.centered-text');
-        if (homeElement) {
-            homeElement.addEventListener('click', function(e) {
-                e.preventDefault();
+                    gsap.to(lines, { rotation: 0, y: 0, duration: 0.15, onComplete: () => isAnimating = false });
+                }
             });
-            
-            if (homeElement.tagName === 'A') {
-                homeElement.removeAttribute('href');
-            }
-        }
 
-        document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-
-        if (sessionStorage.getItem('alreadyLoaded') !== 'true') {
-            document.getElementById('loadingScreen').style.display = 'flex';
-            startAsciiLoader();
-            sessionStorage.setItem('alreadyLoaded', 'true');
-            
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    stopAsciiLoader();
-                    const loadingScreen = document.getElementById('loadingScreen');
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => loadingScreen.style.display = 'none', 500);
-                }, 1500);
+            darkOverlay.addEventListener('click', () => {
+                if (!isOpen || isAnimating) return;
+                isAnimating = true;
+                mobileTrophy.classList.remove('visible');
+                darkOverlay.classList.remove('visible');
+                fullSidebar.classList.remove('visible');
+                isOpen = false;
+                gsap.to(lines, { rotation: 0, y: 0, duration: 0.3, onComplete: () => isAnimating = false });
             });
-        } else {
-            document.getElementById('loadingScreen').style.display = 'none';
         }
+    }
 
-        window.onload = function() {
+    const homeElement = document.querySelector('.mobile-home') || document.querySelector('.centered-text');
+    if (homeElement) {
+        homeElement.addEventListener('click', function(e) {
+            e.preventDefault();
+        });
+        
+        if (homeElement.tagName === 'A') {
+            homeElement.removeAttribute('href');
+        }
+    }
+
+    document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+    if (sessionStorage.getItem('alreadyLoaded') !== 'true') {
+        document.getElementById('loadingScreen').style.display = 'flex';
+        startAsciiLoader();
+        sessionStorage.setItem('alreadyLoaded', 'true');
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                stopAsciiLoader();
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => loadingScreen.style.display = 'none', 500);
+            }, 1500);
+        });
+    } else {
+        document.getElementById('loadingScreen').style.display = 'none';
+    }
+
+    window.onload = function() {
+        document.getElementById('today-date').textContent = formatRevolutionaryDate();
+        setInterval(() => {
             document.getElementById('today-date').textContent = formatRevolutionaryDate();
-            setInterval(() => {
-                document.getElementById('today-date').textContent = formatRevolutionaryDate();
-            }, 60000);
-        };</script>
+        }, 60000);
+    };
+</script>
