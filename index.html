@@ -34,8 +34,6 @@
     .full-sidebar{position:fixed;top:0;right:-80%;width:80%;height:100vh;background-color:#eee;transition:right .5s ease-in-out;z-index:10;display:flex;flex-direction:column;justify-content:center;align-items:center}
     .full-sidebar.visible{right:0}
     .sidebar-header{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:10px}
-    .mobile-trophy-counter{font-family:monospace;font-size:1rem;color:#000;display:flex;align-items:center;gap:5px;cursor:pointer;text-decoration:none;opacity:0;transition:opacity .3s ease-in-out}
-    .mobile-trophy-counter.visible{opacity:1}
     .centered-text{font-family:Arial,sans-serif;font-size:3rem;font-weight:700;text-transform:uppercase;color:#3f3f3f;position:relative;margin-bottom:40px;text-decoration:none;cursor:pointer}
     .centered-text::after{content:'';display:block;width:100%;height:2px;background-color:#3f3f3f;position:absolute;bottom:-10px;left:0}
     .custom-text{font-family:Arial,sans-serif;font-size:3rem;font-weight:700;color:#000;margin-bottom:40px;text-decoration:none}
@@ -44,18 +42,12 @@
     .gif-above-watermark-container{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:4;display:flex;justify-content:center;align-items:center;gap:20px}
     .github-icon,.spotify-icon{font-size:2rem;color:#000;cursor:pointer}
     
-    /* Rimosso completamente il trofeo da desktop */
-    .trophy-counter {
-        display: none !important;
-    }
-    
     @media (min-width:768px){
         .lines-container{display:none}
         .full-sidebar{right:0;width:auto;background:0 0;align-items:flex-end;padding-right:40px}
         .dark-overlay{display:none}
         .centered-text,.custom-text{font-size:2rem;margin-bottom:20px}
         .centered-text::after{height:1px;bottom:-5px}
-        .mobile-trophy-counter{display:none}
         .centered-text{pointer-events:auto}
     }
     @media (max-width:767px){
@@ -68,7 +60,7 @@
     <div class=lines-container tabindex=0><div class=line></div><div class=line></div></div>
     <div class=dark-overlay></div>
     <div class=full-sidebar>
-        <div class=sidebar-header><a class=mobile-trophy-counter href=https://psnprofiles.com/DantetiKa target=_blank rel="noopener noreferrer"><i class="fa-solid fa-trophy"></i> <span>9</span></a></div>
+        <div class=sidebar-header></div>
         <span class="centered-text mobile-home">HOME</span> 
         <a class=custom-text href=untitled.html>[untitled]</a>
     </div>
@@ -187,7 +179,6 @@
         const darkOverlay = document.querySelector('.dark-overlay');
         const fullSidebar = document.querySelector('.full-sidebar');
         const lines = document.querySelectorAll('.line');
-        const mobileTrophy = document.querySelector('.mobile-trophy-counter');
         let isOpen = false;
         let isAnimating = false;
 
@@ -204,14 +195,9 @@
                     gsap.to(lines[1], { rotation: -45, y: -6, duration: 0.15 });
                     
                     setTimeout(() => {
-                        mobileTrophy.classList.add('visible');
-                    }, 200);
-                    
-                    setTimeout(() => {
                         isAnimating = false;
                     }, 300);
                 } else {
-                    mobileTrophy.classList.remove('visible');
                     darkOverlay.classList.remove('visible');
                     fullSidebar.classList.remove('visible');
                     gsap.to(lines, { rotation: 0, y: 0, duration: 0.15, onComplete: () => isAnimating = false });
@@ -221,7 +207,6 @@
             darkOverlay.addEventListener('click', () => {
                 if (!isOpen || isAnimating) return;
                 isAnimating = true;
-                mobileTrophy.classList.remove('visible');
                 darkOverlay.classList.remove('visible');
                 fullSidebar.classList.remove('visible');
                 isOpen = false;
