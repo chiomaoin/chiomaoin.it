@@ -43,8 +43,30 @@
     .watermark{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:1rem;color:rgba(0,0,0,.5);z-index:15}
     .gif-above-watermark-container{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:4;display:flex;justify-content:center;align-items:center;gap:20px}
     .github-icon,.spotify-icon{font-size:2rem;color:#000;cursor:pointer}
-    .trophy-counter{position:fixed;top:20px;right:20px;font-family:monospace;font-size:1rem;color:#000;display:none;align-items:center;gap:5px;cursor:pointer;text-decoration:none}
-    .trophy-counter i{color:#000}
+    
+    /* Stile migliorato per il trofeo */
+    .trophy-counter {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        font-family: monospace;
+        font-size: 1rem;
+        color: #000;
+        display: none;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        z-index: 100;
+        pointer-events: auto;
+        cursor: pointer;
+    }
+    .trophy-counter:hover {
+        opacity: 0.8;
+    }
+    .trophy-counter i {
+        color: #000;
+    }
+    
     @media (min-width:768px){
         .lines-container{display:none}
         .full-sidebar{right:0;width:auto;background:0 0;align-items:flex-end;padding-right:40px}
@@ -52,8 +74,7 @@
         .centered-text,.custom-text{font-size:2rem;margin-bottom:20px}
         .centered-text::after{height:1px;bottom:-5px}
         .trophy-counter{
-            display:flex;
-            pointer-events: auto;
+            display: flex;
         }
         .mobile-trophy-counter{display:none}
         .centered-text{pointer-events:auto}
@@ -65,7 +86,7 @@
 </style>
 <div class=loading-screen id=loadingScreen style=display:none><div class=ascii-loader id=asciiLoader></div></div>
 <a class=data-container href=https://it.wikipedia.org/wiki/Calendario_rivoluzionario_francese id=today-date></a> 
-<a class=trophy-counter href=https://psnprofiles.com/DantetiKa target=_blank rel="noopener noreferrer"><i class="fa-solid fa-trophy"></i> <span id=trophy-count>9</span></a>
+<a class="trophy-counter" id="desktop-trophy" href="https://psnprofiles.com/DantetiKa" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-trophy"></i> <span id=trophy-count>9</span></a>
 <div class=mobile-content>
     <div class=lines-container tabindex=0><div class=line></div><div class=line></div></div>
     <div class=dark-overlay></div>
@@ -85,8 +106,34 @@
 <script>
     // Aggiunte per prevenire selezione
     document.addEventListener('selectstart', function(e) { e.preventDefault(); });
-    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
     document.querySelectorAll('img').forEach(img => { img.ondragstart = () => false; });
+
+    // Funzione per garantire il funzionamento del trofeo
+    function setupTrophyLink() {
+        const trophy = document.getElementById('desktop-trophy');
+        if (trophy) {
+            // Rimuovi eventuali blocchi
+            trophy.style.pointerEvents = 'auto';
+            trophy.oncontextmenu = null;
+            
+            // Aggiungi click handler
+            trophy.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.open(this.href, '_blank', 'noopener,noreferrer');
+            });
+            
+            // Fallback aggiuntivo
+            trophy.onclick = function() {
+                window.open('https://psnprofiles.com/DantetiKa', '_blank');
+                return false;
+            };
+        }
+    }
+
+    // Inizializza il trofeo al caricamento
+    document.addEventListener('DOMContentLoaded', function() {
+        setupTrophyLink();
+    });
 
     const styles = {
         dots2: {
