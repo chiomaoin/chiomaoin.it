@@ -78,7 +78,7 @@
         height: 100vh;
         background-color: #eee;
         transition: right .5s ease-in-out;
-        z-index: 10;
+        z-index: 15;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -134,7 +134,7 @@
         width: 100%;
         height: 100vh;
         background-color: rgba(203,203,203,.8);
-        z-index: 5;
+        z-index: 10;
         opacity: 0;
         transition: opacity .5s ease-in-out;
         pointer-events: none;
@@ -166,26 +166,24 @@
         transform: translateX(-50%);
         font-size: 1rem;
         color: rgba(0,0,0,.5);
-        z-index: 15;
+        z-index: 5;
         pointer-events: none;
     }
     
-    /* Icone social */
+    /* Icone social - MODIFICATO z-index */
     .social-icons {
         position: fixed;
         bottom: 60px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
-        justify-content: center;
-        align-items: center;
         gap: 20px;
-        z-index: 10;
+        z-index: 5; /* Mantenuto sotto lo sfondo oscuro (z-index: 10) */
     }
     .social-icon {
         font-size: 2rem;
         color: #000;
-        cursor: pointer;
+        text-decoration: none;
     }
     
     /* Data */
@@ -195,7 +193,7 @@
         left: 20px;
         font-size: 1rem;
         color: #000;
-        z-index: 3;
+        z-index: 20;
         font-family: monospace;
         text-transform: uppercase;
         cursor: pointer;
@@ -222,6 +220,9 @@
         .testo-centrato::after {
             height: 1px;
             bottom: -5px;
+        }
+        .sfondo-oscuro {
+            display: none;
         }
     }
 </style>
@@ -253,7 +254,7 @@
     </div>
 </div>
 
-<!-- Icone social - AGGIUNTE -->
+<!-- Icone social - Ora sotto lo sfondo oscuro quando il menu è aperto -->
 <div class="social-icons">
     <a class="social-icon" href="https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-spotify"></i>
@@ -274,6 +275,7 @@
 
 <!-- Script personalizzato -->
 <script>
+    // [TUTTO IL RESTO DEL CODICE JAVASCRIPT RIMANE INVARIATO...]
     // Blocco selezione testo e immagini
     document.addEventListener('selectstart', function(e) { 
         e.preventDefault(); 
