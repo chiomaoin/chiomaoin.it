@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="it">
+<head>
 <meta charset=UTF-8>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"name=viewport>
 <title>chiomaoin</title>
@@ -7,7 +8,12 @@
 <link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css rel=stylesheet>
 <script>window.location.pathname.includes("untitled.html")&&window.history.replaceState({},"","/")</script>
 <style>
-    /* Blocco selezione testo e immagini */
+    /* Aggiungi questa regola */
+    .hidden-page {
+        display: none !important;
+    }
+    
+    /* Resto dello stile esistente */
     * {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -22,8 +28,6 @@
         user-drag: none;
         pointer-events: none;
     }
-    
-    /* Stili base */
     body, html {
         overflow: hidden;
         height: 100%;
@@ -38,8 +42,6 @@
         align-items: center;
         text-align: center;
     }
-    
-    /* Contenuto mobile */
     .mobile-content {
         display: flex;
         flex-direction: column;
@@ -49,8 +51,6 @@
         height: 100%;
         position: relative;
     }
-    
-    /* Menu hamburger */
     .linee-container {
         position: fixed;
         right: 20px;
@@ -68,8 +68,6 @@
         transform-origin: center;
         transition: transform .3s ease-in-out;
     }
-    
-    /* Sidebar */
     .barra-piena {
         position: fixed;
         top: 0;
@@ -95,8 +93,6 @@
         align-items: center;
         gap: 10px;
     }
-    
-    /* Testi */
     .testo-home {
         font-size: 3rem;
         font-weight: 700;
@@ -125,8 +121,6 @@
         bottom: -10px;
         left: 0;
     }
-    
-    /* Overlay */
     .sfondo-oscuro {
         position: fixed;
         top: 0;
@@ -143,8 +137,6 @@
         opacity: 1;
         pointer-events: auto;
     }
-    
-    /* Immagine centrale */
     .image-container {
         display: block;
         width: 80vw;
@@ -157,8 +149,6 @@
         height: auto;
         display: block;
     }
-    
-    /* Footer */
     .filigrana {
         position: fixed;
         bottom: 20px;
@@ -169,8 +159,6 @@
         z-index: 5;
         pointer-events: none;
     }
-    
-    /* Icone social - MODIFICATO z-index */
     .social-icons {
         position: fixed;
         bottom: 60px;
@@ -178,15 +166,13 @@
         transform: translateX(-50%);
         display: flex;
         gap: 20px;
-        z-index: 5; /* Mantenuto sotto lo sfondo oscuro (z-index: 10) */
+        z-index: 5;
     }
     .social-icon {
         font-size: 2rem;
         color: #000;
         text-decoration: none;
     }
-    
-    /* Data */
     .data-container {
         position: fixed;
         top: 20px;
@@ -200,7 +186,6 @@
         text-decoration: none;
     }
     
-    /* Media queries */
     @media (min-width:768px) {
         .linee-container {
             display: none;
@@ -226,35 +211,29 @@
         }
     }
 </style>
-
-<!-- Data corrente -->
+</head>
+<body>
 <a class="data-container" href="https://it.wikipedia.org/wiki/Calendario_rivoluzionario_francese" id="today-date"></a>
 
-<!-- Contenuto principale -->
 <div class="mobile-content">
-    <!-- Immagine centrale -->
     <a class="image-container" href="https://untitled.stream/library/project/PzWiYtA83q22xIX72O8xQ">
         <img alt="Immagine centrale" class="image-centrale" src="https://files.catbox.moe/fcirxu.png">
     </a>
     
-    <!-- Menu hamburger -->
     <div class="linee-container" tabindex="0">
         <div class="linea"></div>
         <div class="linea"></div>
     </div>
     
-    <!-- Overlay menu -->
     <div class="sfondo-oscuro"></div>
     
-    <!-- Sidebar -->
     <div class="barra-piena">
         <div class="sidebar-header"></div>
-        <a class="testo-home" href="./">HOME</a> 
+        <span class="testo-home switch-page">HOME</span> 
         <span class="testo-centrato">[untitled]</span>
     </div>
 </div>
 
-<!-- Icone social - Ora sotto lo sfondo oscuro quando il menu è aperto -->
 <div class="social-icons">
     <a class="social-icon" href="https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-spotify"></i>
@@ -267,15 +246,54 @@
     </a>
 </div>
 
-<!-- Footer -->
 <div class="filigrana">© 2025 Luca Dante</div>
 
-<!-- Script GSAP per animazioni -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
-<!-- Script personalizzato -->
 <script>
-    // [TUTTO IL RESTO DEL CODICE JAVASCRIPT RIMANE INVARIATO...]
+    // Funzione per caricare e gestire le pagine
+    function setupPageSwitching() {
+        const body = document.body;
+        const currentPage = document.createElement('div');
+        currentPage.className = 'current-page';
+        currentPage.innerHTML = body.innerHTML;
+        body.innerHTML = '';
+        body.appendChild(currentPage);
+
+        // Gestione del click sul link
+        document.querySelector('.switch-page').addEventListener('click', function() {
+            const otherPageUrl = this.textContent.trim() === 'HOME' ? 'index.html' : 'untitled.html';
+            
+            fetch(otherPageUrl)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const otherPageContent = doc.querySelector('body').innerHTML;
+                    
+                    const otherPage = document.createElement('div');
+                    otherPage.className = 'other-page hidden-page';
+                    otherPage.innerHTML = otherPageContent;
+                    body.appendChild(otherPage);
+                    
+                    // Animazione di transizione
+                    gsap.to(currentPage, { opacity: 0, duration: 0.3, onComplete: function() {
+                        currentPage.classList.add('hidden-page');
+                        otherPage.classList.remove('hidden-page');
+                        gsap.fromTo(otherPage, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+                        
+                        // Aggiorna lo stato della pagina
+                        document.querySelectorAll('.switch-page').forEach(el => {
+                            el.addEventListener('click', function() {
+                                setupPageSwitching();
+                            });
+                        });
+                    }});
+                })
+                .catch(error => console.error('Error loading page:', error));
+        });
+    }
+
     // Blocco selezione testo e immagini
     document.addEventListener('selectstart', function(e) { 
         e.preventDefault(); 
@@ -389,5 +407,10 @@
     window.onload = function() {
         updateDate();
         setInterval(updateDate, 60000);
+        
+        // Inizializza il sistema di switch tra pagine
+        setupPageSwitching();
     };
 </script>
+</body>
+</html>
