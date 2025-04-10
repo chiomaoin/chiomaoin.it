@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Centrato</title>
+    <title>Video Mobile</title>
     <style>
         body {
             background-color: #000;
@@ -12,20 +12,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
         }
         
         .video-container {
-            width: 50%; /* Riduci al 50% della larghezza dello schermo */
-            max-width: 640px; /* Dimensione massima (opzionale) */
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            width: 95%; /* Occupa quasi tutta la larghezza su mobile */
+            max-width: 500px; /* Limita la larghezza su schermi grandi */
         }
         
         video {
             width: 100%;
             height: auto;
             display: block;
+            border-radius: 8px; /* Bordi arrotondati */
         }
     </style>
 </head>
