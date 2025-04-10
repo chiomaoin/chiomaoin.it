@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Video Mobile Autodistruttivo</title>
+    <title>Video con Audio</title>
     <style>
         body {
             margin: 0;
@@ -15,7 +15,6 @@
             min-height: 100vh;
             overflow: hidden;
             touch-action: none;
-            -webkit-touch-callout: none;
         }
         video {
             width: 90vw;
@@ -46,7 +45,7 @@
     </style>
 </head>
 <body>
-    <video id="videoPlayer" src="https://files.catbox.moe/qs22t0.mp4" autoplay muted playsinline webkit-playsinline></video>
+    <video id="videoPlayer" src="https://files.catbox.moe/qs22t0.mp4" autoplay loop playsinline webkit-playsinline></video>
     <div id="closeOverlay">▶️ Tocca per chiudere</div>
 
     <script>
@@ -54,14 +53,20 @@
         const closeOverlay = document.getElementById('closeOverlay');
         let hasFadedOut = false;
 
-        // Configurazione mobile avanzata
-        video.loop = false;
-        video.setAttribute('x-webkit-airplay', 'allow');
-        
-        // Forza riproduzione su iOS
-        document.body.addEventListener('click', function() {
-            video.play().catch(e => console.log(e));
-        }, { once: true });
+        // Abilita audio dopo il primo interazione utente (richiesto su mobile)
+        function enableAudio() {
+            video.muted = false;
+            document.body.removeEventListener('click', enableAudio);
+        }
+        document.body.addEventListener('click', enableAudio);
+
+        // Forza riproduzione su mobile
+        video.play().catch(e => {
+            // Fallback interazione utente
+            document.body.addEventListener('click', function() {
+                video.play();
+            }, { once: true });
+        });
 
         // Dissolvenza finale
         video.addEventListener('timeupdate', function() {
@@ -71,33 +76,30 @@
             }
         });
 
-        // Tentativi di chiusura
+        // Gestione fine video
         video.addEventListener('ended', function() {
             closeOverlay.style.display = 'block';
             
-            // Tentativo 1: Chiusura per API (se popup)
-            if(window.opener) {
-                window.close();
+            // Tentativi di chiusura automatica
+            try {
+                window.open('', '_self', '').close();
+            } catch (e) {
+                setTimeout(() => {
+                    window.location.href = 'about:blank';
+                    setTimeout(() => window.close(), 100);
+                }, 300);
             }
             
-            // Tentativo 2: Redirect + chiusura (Android Chrome)
-            setTimeout(() => {
-                window.location.href = 'about:blank';
-                setTimeout(window.close, 100);
-            }, 300);
-            
-            // Tentativo 3: Chiudi tramite overlay
+            // Fallback manuale
             closeOverlay.onclick = function() {
-                navigator.app && navigator.app.exitApp(); // Per WebView
-                window.open('', '_self', '').close(); // Ultimo tentativo
+                window.open('', '_self', '').close();
             };
         });
 
-        // Fallback per errori di caricamento
+        // Fallback per errori
         video.addEventListener('error', () => {
             closeOverlay.innerHTML = '❌ Errore video. Tocca per chiudere';
             closeOverlay.style.display = 'block';
-            closeOverlay.onclick = () => window.close();
         });
     </script>
 </body>
