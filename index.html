@@ -3,80 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video con Dissolvenza e Chiusura</title>
+    <title>Video Centrato</title>
     <style>
         body {
+            background-color: #000;
             margin: 0;
             padding: 0;
-            background-color: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             overflow: hidden;
         }
+        
+        .video-container {
+            width: 50%; /* Riduci al 50% della larghezza dello schermo */
+            max-width: 640px; /* Dimensione massima (opzionale) */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        
         video {
-            width: 400px;
+            width: 100%;
             height: auto;
-            max-width: 90%;
-            opacity: 1;
-            transition: opacity 0.5s ease-out;
-        }
-        video.fade-out {
-            opacity: 0;
-        }
-        #audioBtn {
-            position: fixed;
-            bottom: 20px;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <video id="videoPlayer" src="https://files.catbox.moe/qs22t0.mp4" autoplay loop muted playsinline></video>
-    <button id="audioBtn">🔇</button>
-
-    <script>
-        const video = document.getElementById('videoPlayer');
-        const audioBtn = document.getElementById('audioBtn');
-        let hasFadedOut = false;
-
-        // Controllo audio
-        audioBtn.addEventListener('click', () => {
-            video.muted = !video.muted;
-            audioBtn.textContent = video.muted ? '🔇' : '🔊';
-        });
-
-        // Dissolvenza finale
-        video.addEventListener('timeupdate', function() {
-            if (video.duration - video.currentTime <= 0.5 && !hasFadedOut) {
-                video.classList.add('fade-out');
-                hasFadedOut = true;
-            }
-        });
-
-        // Reset dissolvenza a inizio loop
-        video.addEventListener('seeked', function() {
-            if (video.currentTime < 0.1) {
-                video.classList.remove('fade-out');
-                hasFadedOut = false;
-            }
-        });
-
-        // Tentativo di chiusura (funziona solo in popup)
-        video.addEventListener('ended', function() {
-            setTimeout(() => {
-                window.close();
-                if(!window.closed) {
-                    audioBtn.textContent = "✕";
-                    audioBtn.onclick = () => window.close();
-                }
-            }, 500);
-        });
-    </script>
+    <div class="video-container">
+        <video controls autoplay muted playsinline preload="auto">
+            <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4">
+            Il tuo browser non supporta il tag video.
+        </video>
+    </div>
 </body>
 </html>
