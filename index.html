@@ -2,8 +2,8 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Video con Audio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video con Dissolvenza e Chiusura</title>
     <style>
         body {
             margin: 0;
@@ -14,58 +14,41 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            touch-action: none;
         }
         video {
-            width: 90vw;
+            width: 400px;
             height: auto;
-            max-height: 80vh;
-            object-fit: contain;
+            max-width: 90%;
             opacity: 1;
             transition: opacity 0.5s ease-out;
         }
         video.fade-out {
             opacity: 0;
         }
-        #closeOverlay {
-            display: none;
+        #audioBtn {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
+            bottom: 20px;
+            background: transparent;
+            border: none;
             color: white;
-            font-family: Arial;
-            text-align: center;
-            padding-top: 50vh;
-            z-index: 1000;
+            font-size: 24px;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <video id="videoPlayer" src="https://files.catbox.moe/qs22t0.mp4" autoplay loop playsinline webkit-playsinline></video>
-    <div id="closeOverlay">▶️ Tocca per chiudere</div>
+    <video id="videoPlayer" src="https://files.catbox.moe/qs22t0.mp4" autoplay loop muted playsinline></video>
+    <button id="audioBtn">🔇</button>
 
     <script>
         const video = document.getElementById('videoPlayer');
-        const closeOverlay = document.getElementById('closeOverlay');
+        const audioBtn = document.getElementById('audioBtn');
         let hasFadedOut = false;
 
-        // Abilita audio dopo il primo interazione utente (richiesto su mobile)
-        function enableAudio() {
-            video.muted = false;
-            document.body.removeEventListener('click', enableAudio);
-        }
-        document.body.addEventListener('click', enableAudio);
-
-        // Forza riproduzione su mobile
-        video.play().catch(e => {
-            // Fallback interazione utente
-            document.body.addEventListener('click', function() {
-                video.play();
-            }, { once: true });
+        // Controllo audio
+        audioBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            audioBtn.textContent = video.muted ? '🔇' : '🔊';
         });
 
         // Dissolvenza finale
@@ -76,30 +59,23 @@
             }
         });
 
-        // Gestione fine video
-        video.addEventListener('ended', function() {
-            closeOverlay.style.display = 'block';
-            
-            // Tentativi di chiusura automatica
-            try {
-                window.open('', '_self', '').close();
-            } catch (e) {
-                setTimeout(() => {
-                    window.location.href = 'about:blank';
-                    setTimeout(() => window.close(), 100);
-                }, 300);
+        // Reset dissolvenza a inizio loop
+        video.addEventListener('seeked', function() {
+            if (video.currentTime < 0.1) {
+                video.classList.remove('fade-out');
+                hasFadedOut = false;
             }
-            
-            // Fallback manuale
-            closeOverlay.onclick = function() {
-                window.open('', '_self', '').close();
-            };
         });
 
-        // Fallback per errori
-        video.addEventListener('error', () => {
-            closeOverlay.innerHTML = '❌ Errore video. Tocca per chiudere';
-            closeOverlay.style.display = 'block';
+        // Tentativo di chiusura (funziona solo in popup)
+        video.addEventListener('ended', function() {
+            setTimeout(() => {
+                window.close();
+                if(!window.closed) {
+                    audioBtn.textContent = "✕";
+                    audioBtn.onclick = () => window.close();
+                }
+            }, 500);
         });
     </script>
 </body>
