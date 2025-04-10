@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Mobile</title>
+    <title>Video con Audio</title>
     <style>
         body {
             background-color: #000;
@@ -14,27 +14,41 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
+            touch-action: none;
+            user-select: none;
         }
         
         .video-container {
-            width: 95%; /* Occupa quasi tutta la larghezza su mobile */
-            max-width: 500px; /* Limita la larghezza su schermi grandi */
+            width: 95%;
+            max-width: 500px;
+            pointer-events: none;
         }
         
         video {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 8px; /* Bordi arrotondati */
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
     <div class="video-container">
-        <video controls autoplay muted playsinline preload="auto">
+        <video autoplay playsinline loop preload="auto" muted id="videoPlayer">
             <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4">
-            Il tuo browser non supporta il tag video.
         </video>
     </div>
+
+    <script>
+        // Sblocca l'audio dopo il primo interazione utente
+        document.addEventListener('click', function() {
+            const video = document.getElementById('videoPlayer');
+            video.muted = false;
+        }, { once: true });
+
+        // Blocca altre interazioni
+        document.querySelector('video').addEventListener('contextmenu', (e) => e.preventDefault());
+        document.querySelector('video').addEventListener('click', (e) => e.preventDefault());
+    </script>
 </body>
 </html>
