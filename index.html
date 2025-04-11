@@ -28,16 +28,18 @@
       max-width: 500px;
       aspect-ratio: 16 / 9;
       border-radius: 8px;
-      overflow: hidden; /* 👈 fondamentale per il border-radius */
+      overflow: hidden; /* 👈 Nasconde eventuali overflow */
+      box-shadow: inset 0 0 2px #000; /* 👈 Azzera bordi luminosi */
     }
 
-    video {
+    video,
+    .fade-to-black {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover; /* 👈 evita distorsioni, copre tutto */
+      object-fit: cover;
       display: block;
     }
 
@@ -83,12 +85,7 @@
     }
 
     .fade-to-black {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
+      background: #000;
       z-index: 1;
       opacity: 0;
       pointer-events: none;
@@ -118,7 +115,7 @@
     const fadeElement = document.getElementById('fadeToBlack');
     let isFading = false;
 
-    // Blocca scrolling
+    // Disabilita scroll
     document.body.style.overflow = 'hidden';
     window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
     window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
