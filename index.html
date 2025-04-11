@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Mobile con Audio</title>
+    <title>Video con Pulsante Minimal</title>
     <style>
         body {
             background-color: #000;
@@ -15,10 +15,10 @@
             min-height: 100vh;
             overflow: hidden;
             touch-action: none;
-            user-select: none;
         }
         
         .video-container {
+            position: relative;
             width: 95%;
             max-width: 500px;
         }
@@ -30,62 +30,117 @@
             border-radius: 8px;
         }
         
-        .play-button {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: 2px solid white;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 24px;
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            z-index: 10;
-            pointer-events: auto;
+            z-index: 2;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .play-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .play-button {
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 25px solid white;
+            margin-left: 5px;
+            filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
+        }
+        
+        .fade-to-black {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
 <body>
     <div class="video-container">
-        <video loop preload="auto" id="videoPlayer" webkit-playsinline playsinline>
+        <video id="videoPlayer" playsinline webkit-playsinline preload="metadata">
             <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4">
         </video>
+        <div class="play-overlay" id="playOverlay">
+            <div class="play-button"></div>
+        </div>
+        <div class="fade-to-black" id="fadeToBlack"></div>
     </div>
-    
-    <div class="play-button" id="playButton">▶</div>
 
     <script>
         const video = document.getElementById('videoPlayer');
-        const playButton = document.getElementById('playButton');
+        const playOverlay = document.getElementById('playOverlay');
+        const fadeElement = document.getElementById('fadeToBlack');
         
-        // Mostra il pulsante e prepara il video
-        video.muted = true;  // Inizia mutato per il pre-caricamento
-        video.load();
+        // Configurazione iniziale
+        video.muted = false;
+        video.controls = false;
         
-        playButton.addEventListener('click', function() {
-            // Nascondi il pulsante
-            playButton.style.display = 'none';
+        // Al click sul pulsante play
+        playOverlay.addEventListener('click', function() {
+            // Nascondi il pulsante con dissolvenza
+            playOverlay.classList.add('hidden');
             
-            // Prova a riprodurre con audio
-            video.muted = false;
-            video.play().then(() => {
-                console.log("Riproduzione avviata");
-            }).catch(e => {
+            // Avvia la riproduzione
+            video.play().catch(e => {
                 console.error("Errore riproduzione:", e);
-                video.muted = true;
-                video.play();
+                playOverlay.classList.remove('hidden');
             });
         });
         
-        // Blocca interazioni indesiderate
+        // Gestione della dissolvenza finale
+        video.addEventListener('timeupdate', function() {
+            if (video.duration > 0) {
+                const fadeStart = video.duration - 0.5; // Inizia dissolvenza 0.5s prima della fine
+                if (video.currentTime >= fadeStart) {
+                    const fadeProgress = (video.currentTime - fadeStart) / 0.5;
+                    fadeElement.style.opacity = fadeProgress;
+                } else {
+                    fadeElement.style.opacity = 0;
+                }
+            }
+        });
+        
+        // Quando il video finisce
+        video.addEventListener('ended', function() {
+            // Completa la dissolvenza al nero
+            fadeElement.style.opacity = 1;
+            
+            // Aspetta che la dissolvenza sia completa
+            setTimeout(() => {
+                // Torna all'inizio
+                video.currentTime = 0;
+                
+                // Resetta la dissolvenza al nero
+                fadeElement.style.opacity = 0;
+                
+                // Mostra di nuovo il pulsante play con dissolvenza
+                setTimeout(() => {
+                    playOverlay.classList.remove('hidden');
+                }, 300);
+            }, 500); // Tempo della dissolvenza
+        });
+        
+        // Blocca menu contestuale
         video.addEventListener('contextmenu', e => e.preventDefault());
-        video.addEventListener('click', e => e.preventDefault());
     </script>
 </body>
 </html>
