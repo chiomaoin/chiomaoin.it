@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video con Pulsante Minimal</title>
+    <title>Video con Pulsante e Icona</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             background-color: #000;
@@ -50,13 +52,28 @@
             pointer-events: none;
         }
         
+        .play-center {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
         .play-button {
             width: 0;
             height: 0;
             border-top: 15px solid transparent;
             border-bottom: 15px solid transparent;
             border-left: 25px solid white;
-            margin-left: 5px;
+            filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
+        }
+        
+        .spotify-icon {
+            position: absolute;
+            left: calc(100% + 20px);
+            color: white;
+            font-size: 30px; /* Stessa altezza del pulsante play (15px + 15px) */
+            width: 25px; /* Stessa larghezza del triangolo play */
+            text-align: center;
             filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
         }
         
@@ -80,7 +97,10 @@
             <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4">
         </video>
         <div class="play-overlay" id="playOverlay">
-            <div class="play-button"></div>
+            <div class="play-center">
+                <div class="play-button"></div>
+                <i class="fab fa-spotify spotify-icon"></i>
+            </div>
         </div>
         <div class="fade-to-black" id="fadeToBlack"></div>
     </div>
@@ -89,6 +109,7 @@
         const video = document.getElementById('videoPlayer');
         const playOverlay = document.getElementById('playOverlay');
         const fadeElement = document.getElementById('fadeToBlack');
+        let isFading = false;
         
         // Configurazione iniziale
         video.muted = false;
@@ -96,24 +117,25 @@
         
         // Al click sul pulsante play
         playOverlay.addEventListener('click', function() {
-            // Nascondi il pulsante con dissolvenza
             playOverlay.classList.add('hidden');
-            
-            // Avvia la riproduzione
             video.play().catch(e => {
                 console.error("Errore riproduzione:", e);
                 playOverlay.classList.remove('hidden');
             });
         });
         
-        // Gestione della dissolvenza finale
+        // Gestione della dissolvenza finale (inizia 1s prima della fine)
         video.addEventListener('timeupdate', function() {
             if (video.duration > 0) {
-                const fadeStart = video.duration - 0.5; // Inizia dissolvenza 0.5s prima della fine
-                if (video.currentTime >= fadeStart) {
-                    const fadeProgress = (video.currentTime - fadeStart) / 0.5;
-                    fadeElement.style.opacity = fadeProgress;
-                } else {
+                const fadeStart = video.duration - 1;
+                
+                if (video.currentTime >= fadeStart && !isFading) {
+                    isFading = true;
+                    fadeElement.style.transition = 'opacity 0.5s ease';
+                    fadeElement.style.opacity = 1;
+                }
+                else if (video.currentTime < fadeStart) {
+                    isFading = false;
                     fadeElement.style.opacity = 0;
                 }
             }
@@ -121,22 +143,11 @@
         
         // Quando il video finisce
         video.addEventListener('ended', function() {
-            // Completa la dissolvenza al nero
-            fadeElement.style.opacity = 1;
-            
-            // Aspetta che la dissolvenza sia completa
             setTimeout(() => {
-                // Torna all'inizio
                 video.currentTime = 0;
-                
-                // Resetta la dissolvenza al nero
                 fadeElement.style.opacity = 0;
-                
-                // Mostra di nuovo il pulsante play con dissolvenza
-                setTimeout(() => {
-                    playOverlay.classList.remove('hidden');
-                }, 300);
-            }, 500); // Tempo della dissolvenza
+                playOverlay.classList.remove('hidden');
+            }, 500);
         });
         
         // Blocca menu contestuale
