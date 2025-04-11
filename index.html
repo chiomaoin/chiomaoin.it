@@ -20,6 +20,7 @@
       justify-content: center;
       align-items: center;
       touch-action: none;
+      cursor: default;
     }
 
     .video-container {
@@ -27,9 +28,8 @@
       width: 95%;
       max-width: 500px;
       aspect-ratio: 16 / 9;
-      border-radius: 8px;
-      overflow: hidden; /* 👈 Nasconde eventuali overflow */
-      box-shadow: inset 0 0 2px #000; /* 👈 Azzera bordi luminosi */
+      overflow: hidden;
+      background-color: #000;
     }
 
     video,
@@ -41,6 +41,13 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      background-color: #000;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    video.interactive {
+      pointer-events: auto;
     }
 
     .play-overlay {
@@ -52,10 +59,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
-      z-index: 2;
+      z-index: 3;
       opacity: 1;
       transition: opacity 0.5s ease;
+      background-color: transparent;
     }
 
     .play-overlay.hidden {
@@ -63,33 +70,38 @@
       pointer-events: none;
     }
 
+    .play-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .play-center {
       display: flex;
       align-items: center;
-      gap: 30px;
+      gap: 80px; /* Maggiore distanza tra le icone */
+      cursor: pointer;
     }
 
     .play-button {
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 30px 0 30px 50px;
+      border-width: 40px 0 40px 70px; /* Ingrandito il pulsante play */
       border-color: transparent transparent transparent white;
-      filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
     }
 
     .spotify-icon {
-      font-size: 64px;
+      font-size: 80px; /* Aumentata la dimensione dell'icona Spotify */
       color: white;
-      filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
+      cursor: pointer; /* Rendi l'icona cliccabile */
     }
 
     .fade-to-black {
       background: #000;
-      z-index: 1;
+      z-index: 2;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.5s ease;
+      will-change: opacity;
     }
   </style>
 </head>
@@ -99,10 +111,13 @@
       <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4" />
     </video>
 
-    <div class="play-overlay" id="playOverlay" role="button" aria-label="Riproduci video">
+    <div class="play-overlay visible" id="playOverlay" role="button" aria-label="Riproduci video">
       <div class="play-center">
         <div class="play-button"></div>
-        <i class="fab fa-spotify spotify-icon"></i>
+        <!-- Icona Spotify a destra con il link -->
+        <a href="https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm?si=df8d98889fb342d8" target="_blank" id="spotifyLink">
+          <i class="fab fa-spotify spotify-icon"></i>
+        </a>
       </div>
     </div>
 
@@ -113,6 +128,7 @@
     const video = document.getElementById('videoPlayer');
     const playOverlay = document.getElementById('playOverlay');
     const fadeElement = document.getElementById('fadeToBlack');
+    const spotifyLink = document.getElementById('spotifyLink');
     let isFading = false;
 
     // Disabilita scroll
@@ -123,14 +139,29 @@
     video.muted = false;
     video.controls = false;
 
+    // Gestione del click sul pulsante play
     playOverlay.addEventListener('click', () => {
+      playOverlay.classList.remove('visible');
       playOverlay.classList.add('hidden');
+      video.classList.add('interactive');
       video.play().catch(err => {
         console.warn('Riproduzione bloccata:', err);
         playOverlay.classList.remove('hidden');
+        playOverlay.classList.add('visible');
+        video.classList.remove('interactive');
       });
     });
 
+    // Gestione del click sull'icona di Spotify (solo reindirizzamento)
+    spotifyLink.addEventListener('click', (e) => {
+      // Previene l'avvio del video
+      e.stopPropagation(); // Impedisce che l'evento si propaghi al video
+      e.preventDefault();  // Previene il comportamento di default del link
+      // Apre il link in una nuova finestra
+      window.open(spotifyLink.href, '_blank');
+    });
+
+    // Gestione della dissolvenza del video alla fine
     video.addEventListener('timeupdate', () => {
       if (video.duration > 0) {
         const fadeStart = video.duration - 1;
@@ -145,8 +176,14 @@
       setTimeout(() => {
         video.currentTime = 0;
         fadeElement.style.opacity = 0;
-        playOverlay.classList.remove('hidden');
         isFading = false;
+
+        video.classList.remove('interactive');
+
+        playOverlay.classList.remove('hidden');
+        setTimeout(() => {
+          playOverlay.classList.add('visible');
+        }, 20);
       }, 500);
     });
 
