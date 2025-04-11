@@ -12,8 +12,6 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      overscroll-behavior: none;
-      -webkit-overflow-scrolling: touch;
       background-color: #000;
     }
 
@@ -28,13 +26,19 @@
       position: relative;
       width: 95%;
       max-width: 500px;
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      overflow: hidden; /* 👈 fondamentale per il border-radius */
     }
 
     video {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover; /* 👈 evita distorsioni, copre tutto */
       display: block;
-      border-radius: 8px; /* 👈 angoli arrotondati */
     }
 
     .play-overlay {
@@ -58,28 +62,23 @@
     }
 
     .play-center {
-      position: relative;
       display: flex;
       align-items: center;
+      gap: 30px;
     }
 
     .play-button {
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 20px 0 20px 35px;
+      border-width: 30px 0 30px 50px;
       border-color: transparent transparent transparent white;
       filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
-      margin-left: 5px;
     }
 
     .spotify-icon {
-      position: absolute;
-      left: 100%;
-      margin-left: 20px;
-      transform: translateX(20px);
+      font-size: 64px;
       color: white;
-      font-size: 38px;
       filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
     }
 
@@ -89,12 +88,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #000;
+      background: black;
       z-index: 1;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.5s ease;
-      border-radius: 8px; /* 👈 segui stesso raggio del video */
     }
   </style>
 </head>
@@ -120,16 +118,14 @@
     const fadeElement = document.getElementById('fadeToBlack');
     let isFading = false;
 
-    // Disabilita scrolling su mobile
+    // Blocca scrolling
     document.body.style.overflow = 'hidden';
     window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
     window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
 
-    // Configura video
     video.muted = false;
     video.controls = false;
 
-    // Click su overlay per avviare
     playOverlay.addEventListener('click', () => {
       playOverlay.classList.add('hidden');
       video.play().catch(err => {
@@ -138,7 +134,6 @@
       });
     });
 
-    // Dissolvenza
     video.addEventListener('timeupdate', () => {
       if (video.duration > 0) {
         const fadeStart = video.duration - 1;
@@ -149,7 +144,6 @@
       }
     });
 
-    // Ripristina fine video
     video.addEventListener('ended', () => {
       setTimeout(() => {
         video.currentTime = 0;
@@ -159,7 +153,6 @@
       }, 500);
     });
 
-    // Disabilita menu destro
     video.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 </body>
