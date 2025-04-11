@@ -114,8 +114,8 @@
     <div class="play-overlay visible" id="playOverlay" role="button" aria-label="Riproduci video">
       <div class="play-center">
         <div class="play-button"></div>
-        <!-- Icona Spotify a destra con il link -->
-        <a href="https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm?si=df8d98889fb342d8" target="_blank" id="spotifyLink">
+        <!-- Icona Spotify con apertura nella stessa pagina -->
+        <a href="https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm?si=df8d98889fb342d8" id="spotifyLink">
           <i class="fab fa-spotify spotify-icon"></i>
         </a>
       </div>
@@ -152,16 +152,12 @@
       });
     });
 
-    // Gestione del click sull'icona di Spotify (solo reindirizzamento)
+    // Gestione del click sull'icona di Spotify
     spotifyLink.addEventListener('click', (e) => {
-      // Previene l'avvio del video
-      e.stopPropagation(); // Impedisce che l'evento si propaghi al video
-      e.preventDefault();  // Previene il comportamento di default del link
-      // Apre il link in una nuova finestra
-      window.open(spotifyLink.href, '_blank');
+      e.stopPropagation(); // Impedisce che il click avvii il video
     });
 
-    // Gestione della dissolvenza del video alla fine
+    // Dissolvenza nera verso la fine del video
     video.addEventListener('timeupdate', () => {
       if (video.duration > 0) {
         const fadeStart = video.duration - 1;
@@ -187,6 +183,7 @@
       }, 500);
     });
 
+    // Disabilita menu tasto destro
     video.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 </body>
