@@ -12,9 +12,9 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Disabilita lo scrolling */
+            overflow: hidden;
         }
-        
+
         body {
             background-color: #000;
             display: flex;
@@ -22,20 +22,20 @@
             align-items: center;
             touch-action: none;
         }
-        
+
         .video-container {
             position: relative;
             width: 95%;
             max-width: 500px;
         }
-        
+
         video {
             width: 100%;
             height: auto;
             display: block;
             border-radius: 8px;
         }
-        
+
         .play-overlay {
             position: absolute;
             top: 0;
@@ -50,35 +50,38 @@
             opacity: 1;
             transition: opacity 0.5s ease;
         }
-        
+
         .play-overlay.hidden {
             opacity: 0;
             pointer-events: none;
         }
-        
+
         .play-center {
             position: relative;
             display: flex;
             align-items: center;
         }
-        
+
         .play-button {
             width: 0;
             height: 0;
-            border-top: 20px solid transparent;
-            border-bottom: 20px solid transparent;
-            border-left: 35px solid white;
+            border-style: solid;
+            border-width: 20px 0 20px 35px;
+            border-color: transparent transparent transparent white;
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
+            margin-left: 5px;
         }
-        
+
         .spotify-icon {
             position: absolute;
-            left: calc(100% + 40px);
+            left: 100%;
+            margin-left: 20px;
+            transform: translateX(20px);
             color: white;
             font-size: 38px;
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
         }
-        
+
         .fade-to-black {
             position: absolute;
             top: 0;
@@ -98,7 +101,7 @@
         <video id="videoPlayer" playsinline webkit-playsinline preload="metadata">
             <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4">
         </video>
-        <div class="play-overlay" id="playOverlay">
+        <div class="play-overlay" id="playOverlay" role="button" aria-label="Riproduci video">
             <div class="play-center">
                 <div class="play-button"></div>
                 <i class="fab fa-spotify spotify-icon"></i>
@@ -112,29 +115,27 @@
         const playOverlay = document.getElementById('playOverlay');
         const fadeElement = document.getElementById('fadeToBlack');
         let isFading = false;
-        
-        // Blocca completamente lo scrolling
+
+        // Disabilita scrolling completamente
         document.body.style.overflow = 'hidden';
-        window.addEventListener('scroll', function(e) {
-            e.preventDefault();
-            window.scrollTo(0, 0);
-        });
-        
+        window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+        window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
         // Configurazione iniziale
         video.muted = false;
         video.controls = false;
-        
+
         // Al click sul pulsante play
-        playOverlay.addEventListener('click', function() {
+        playOverlay.addEventListener('click', function () {
             playOverlay.classList.add('hidden');
             video.play().catch(e => {
-                console.error("Errore riproduzione:", e);
+                console.warn("Riproduzione bloccata:", e);
                 playOverlay.classList.remove('hidden');
             });
         });
-        
-        // Gestione della dissolvenza finale
-        video.addEventListener('timeupdate', function() {
+
+        // Dissolvenza finale
+        video.addEventListener('timeupdate', function () {
             if (video.duration > 0) {
                 const fadeStart = video.duration - 1;
                 if (video.currentTime >= fadeStart && !isFading) {
@@ -143,9 +144,9 @@
                 }
             }
         });
-        
-        // Quando il video finisce
-        video.addEventListener('ended', function() {
+
+        // Alla fine del video
+        video.addEventListener('ended', function () {
             setTimeout(() => {
                 video.currentTime = 0;
                 fadeElement.style.opacity = 0;
@@ -153,8 +154,8 @@
                 isFading = false;
             }, 500);
         });
-        
-        // Blocca menu contestuale
+
+        // Blocca menu contestuale (click destro)
         video.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
