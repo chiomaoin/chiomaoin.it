@@ -76,14 +76,14 @@
 
     .play-center {
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 40px;
-      transform: translateX(-15px); /* Aggiustamento più sottile per il centraggio */
     }
 
     .play-button {
-      width: 130px; /* Ingrandito da 120px a 130px */
-      height: 130px;
+      width: 150px;
+      height: 150px;
       background-image: url('https://files.catbox.moe/s0zrwa.png');
       background-size: contain;
       background-repeat: no-repeat;
@@ -93,8 +93,8 @@
 
     .spotify-link {
       display: block;
-      width: 130px; /* Ingrandito da 120px a 130px */
-      height: 130px;
+      width: 150px;
+      height: 150px;
       position: relative;
     }
 
@@ -120,6 +120,18 @@
       opacity: 0;
       pointer-events: none;
       will-change: opacity;
+    }
+
+    /* Stile per dispositivi mobili */
+    @media (max-width: 768px) {
+      .play-center {
+        gap: 60px; /* Più spazio verticale tra le immagini */
+      }
+      
+      .play-button, .spotify-link {
+        width: 180px; /* Immagini più grandi su mobile */
+        height: 180px;
+      }
     }
   </style>
 </head>
