@@ -72,28 +72,45 @@
 
     .play-overlay.visible {
       opacity: 1;
-      pointer-events: auto;
     }
 
     .play-center {
       display: flex;
       align-items: center;
-      gap: 80px; /* Maggiore distanza tra le icone */
-      cursor: pointer;
+      gap: 80px;
     }
 
     .play-button {
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 40px 0 40px 70px; /* Ingrandito il pulsante play */
-      border-color: transparent transparent transparent white;
+      width: 70px;
+      height: 80px;
+      background-image: url('https://files.catbox.moe/s0zrwa.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+    }
+
+    .spotify-link {
+      display: block;
+      width: 80px;
+      height: 80px;
+      position: relative;
     }
 
     .spotify-icon {
-      font-size: 80px; /* Aumentata la dimensione dell'icona Spotify */
-      color: white;
-      cursor: pointer; /* Rendi l'icona cliccabile */
+      width: 100%;
+      height: 100%;
+      background-image: url('https://files.catbox.moe/cxgs1e.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     .fade-to-black {
@@ -111,12 +128,11 @@
       <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4" />
     </video>
 
-    <div class="play-overlay visible" id="playOverlay" role="button" aria-label="Riproduci video">
+    <div class="play-overlay visible" id="playOverlay">
       <div class="play-center">
-        <div class="play-button"></div>
-        <!-- Icona Spotify con apertura nella stessa pagina -->
-        <a href="https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm?si=df8d98889fb342d8" id="spotifyLink">
-          <i class="fab fa-spotify spotify-icon"></i>
+        <div class="play-button" id="playButton"></div>
+        <a href="https://open.spotify.com/user/31gms4uvuxayraivbxo4tttpasmm?si=df8d98889fb342d8" class="spotify-link" id="spotifyLink">
+          <div class="spotify-icon"></div>
         </a>
       </div>
     </div>
@@ -127,6 +143,7 @@
   <script>
     const video = document.getElementById('videoPlayer');
     const playOverlay = document.getElementById('playOverlay');
+    const playButton = document.getElementById('playButton');
     const fadeElement = document.getElementById('fadeToBlack');
     const spotifyLink = document.getElementById('spotifyLink');
     let isFading = false;
@@ -140,7 +157,7 @@
     video.controls = false;
 
     // Gestione del click sul pulsante play
-    playOverlay.addEventListener('click', () => {
+    playButton.addEventListener('click', () => {
       playOverlay.classList.remove('visible');
       playOverlay.classList.add('hidden');
       video.classList.add('interactive');
@@ -154,7 +171,7 @@
 
     // Gestione del click sull'icona di Spotify
     spotifyLink.addEventListener('click', (e) => {
-      e.stopPropagation(); // Impedisce che il click avvii il video
+      e.stopPropagation();
     });
 
     // Dissolvenza nera verso la fine del video
@@ -173,9 +190,7 @@
         video.currentTime = 0;
         fadeElement.style.opacity = 0;
         isFading = false;
-
         video.classList.remove('interactive');
-
         playOverlay.classList.remove('hidden');
         setTimeout(() => {
           playOverlay.classList.add('visible');
