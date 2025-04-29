@@ -7,12 +7,22 @@
   <style>
     .media-container {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 20px;
       margin-bottom: 20px;
     }
-    .media-container img, .media-container video {
-      max-width: 200px;
+    .gif-container {
+      flex: 0 0 auto;
+    }
+    .video-container {
+      flex: 1;
+      height: 200px; /* Stessa altezza della GIF */
+      overflow: hidden;
+    }
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
@@ -30,10 +40,14 @@
     </header>
     <main>
       <div class="media-container">
-        <img width="200" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHZqNXl4NGliZXBwbmRodDF5dTJja2NpdmxpNHQ2djI2M29tc3I1MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RwvNM1uQpEaDLdM7yN/giphy.gif" />
-        <video width="200" autoplay loop muted>
-          <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4">
-        </video>
+        <div class="gif-container">
+          <img width="200" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHZqNXl4NGliZXBwbmRodDF5dTJja2NpdmxpNHQ2djI2M29tc3I1MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RwvNM1uQpEaDLdM7yN/giphy.gif" />
+        </div>
+        <div class="video-container">
+          <video autoplay loop muted>
+            <source src="https://files.catbox.moe/qs22t0.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
       <h1 id="ブルナリチャードの個人的ブログ">Luca Dante</h1>
       <p>Il Signore dà, il Signore toglie. Gb 1,6-22</p>
