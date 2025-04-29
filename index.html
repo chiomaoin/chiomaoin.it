@@ -4,16 +4,18 @@
   <meta charset="utf-8">
   <title>チオマオイン</title>
   <link rel="stylesheet" href="stylescript/styles.css">
+  <script>
+    // Nasconde il path dopo il dominio nella barra degli indirizzi
+    history.replaceState(null, null, ' ');
+  </script>
   <style>
-    /* Impedisce la selezione di testo e immagini in tutta la pagina */
+    /* Stili CSS precedenti mantenuti */
     body {
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
     }
-    
-    /* Stili originali preservati */
     .media-container {
       display: flex;
       align-items: flex-start;
@@ -24,7 +26,6 @@
     .gif-container {
       flex: 0 0 auto;
     }
-    /* Stile per l'IP */
     .ip-container {
       position: absolute;
       left: calc(50% + 100px);
@@ -36,13 +37,8 @@
       white-space: nowrap;
       pointer-events: none;
     }
-    
-    /* Impedisce il trascinamento delle immagini */
     img {
       -webkit-user-drag: none;
-      -khtml-user-drag: none;
-      -moz-user-drag: none;
-      -o-user-drag: none;
       user-drag: none;
       pointer-events: none;
     }
@@ -50,6 +46,7 @@
 </head>
 <body>
   <div class="container">
+    <!-- Resto del codice HTML invariato -->
     <header>
       <div class="menu">
         <ul>
