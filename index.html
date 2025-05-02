@@ -71,7 +71,7 @@
         <ul>
           <li>/ <a href="index.html">HomePage</a></li>
           <li>/ <a href="musica.html">My jam</a></li>
-          <li>/ <a href="untitled.html" class="glitch-link" id="abstergo-link">Abstergo Industries</a></li>
+          <li>/ <a href="untitled.html">Teoria dell'universo</a></li>
         </ul>
       </div>
     </header>
@@ -93,67 +93,5 @@
       <div class="c">© 2025. All rights are reserved.</div>
     </footer>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const link = document.getElementById('abstergo-link');
-      const originalText = link.textContent;
-      const maxLength = originalText.length; // Lunghezza di "Abstergo Industries" (18 caratteri)
-      
-      // Split del testo originale in caratteri
-      link.innerHTML = '';
-      for (let i = 0; i < originalText.length; i++) {
-        const span = document.createElement('span');
-        span.className = 'char';
-        span.textContent = originalText[i];
-        span.style.color = 'white';
-        link.appendChild(span);
-      }
-      
-      // Genera una stringa casuale senza superare maxLength
-      function getRandomGlitchText() {
-        const chars = "!@#$%&*+-=?[]{}<>";
-        let result = "";
-        const length = Math.floor(Math.random() * maxLength) + 1; // Massimo maxLength
-        for (let i = 0; i < length; i++) {
-          result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return result;
-      }
-      
-      // Effetto glitch
-      function applyGlitch() {
-        const chars = link.querySelectorAll('.char');
-        const glitchIntensity = 0.3;
-        
-        for (let i = 0; i < chars.length; i++) {
-          if (Math.random() < glitchIntensity) {
-            const glitchText = getRandomGlitchText();
-            // Assicura che non vada oltre la lunghezza originale
-            if (i + glitchText.length <= maxLength) {
-              for (let j = 0; j < glitchText.length; j++) {
-                if (chars[i + j]) {
-                  chars[i + j].textContent = glitchText[j];
-                  chars[i + j].style.color = 'white';
-                  
-                  // Ritorno alla normalità dopo un delay
-                  setTimeout(() => {
-                    if (chars[i + j]) {
-                      chars[i + j].textContent = originalText[i + j];
-                      chars[i + j].style.color = 'white';
-                    }
-                  }, 100 + Math.random() * 400);
-                }
-              }
-            }
-          }
-        }
-        
-        setTimeout(applyGlitch, 50 + Math.random() * 450);
-      }
-      
-      applyGlitch();
-    });
-  </script>
 </body>
 </html>
