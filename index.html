@@ -10,7 +10,6 @@ if(window.location.pathname.endsWith('index.html')) {
 </script>
   <link rel="stylesheet" href="stylescript/styles.css">
   <style>
-    /* Stili precedenti... */
     body {
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -19,24 +18,8 @@ if(window.location.pathname.endsWith('index.html')) {
     }
     .media-container {
       display: flex;
-      align-items: flex-start;
-      gap: 20px;
+      justify-content: center;
       margin-bottom: 20px;
-      position: relative;
-    }
-    .gif-container {
-      flex: 0 0 auto;
-    }
-    .ip-container {
-      position: absolute;
-      left: calc(50% + 100px);
-      transform: translate(-50%, -50%);
-      top: 50%;
-      font-family: inherit;
-      font-size: 14px;
-      color: #666;
-      white-space: nowrap;
-      pointer-events: none;
     }
     img {
       -webkit-user-drag: none;
@@ -64,17 +47,12 @@ if(window.location.pathname.endsWith('index.html')) {
     </header>
     <main>
       <div class="media-container">
-        <div class="gif-container">
-          <img width="200" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHZqNXl4NGliZXBwbmRodDF5dTJja2NpdmxpNHQ2djI2M29tc3I1MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RwvNM1uQpEaDLdM7yN/giphy.gif" 
-               draggable="false" 
-               oncontextmenu="return false;" />
-        </div>
-        <div class="ip-container">
-          192.168.1.1
-        </div>
+        <img width="200" src="https://sendou.ink/static-assets/badges/crest.gif" 
+             draggable="false" 
+             oncontextmenu="return false;" />
       </div>
       <h1 id="ブルナリチャードの個人的ブログ">Luca Dante</h1>
-      <p>Blog personale.</p>
+      <p>Mi piace lo yogurt greco.</p>
     </main>
     <footer>
       <div class="c">© 2025. All rights are reserved.</div>
