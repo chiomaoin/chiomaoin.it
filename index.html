@@ -5,15 +5,13 @@
   <title>チオマオイン</title>
   <link rel="stylesheet" href="stylescript/styles.css">
   <style>
-    /* Impedisce la selezione di testo e immagini in tutta la pagina */
+    /* Stili precedenti... */
     body {
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
     }
-    
-    /* Stili originali preservati */
     .media-container {
       display: flex;
       align-items: flex-start;
@@ -24,7 +22,6 @@
     .gif-container {
       flex: 0 0 auto;
     }
-    /* Stile per l'IP */
     .ip-container {
       position: absolute;
       left: calc(50% + 100px);
@@ -36,8 +33,6 @@
       white-space: nowrap;
       pointer-events: none;
     }
-    
-    /* Impedisce il trascinamento delle immagini */
     img {
       -webkit-user-drag: none;
       -khtml-user-drag: none;
@@ -46,10 +41,26 @@
       user-drag: none;
       pointer-events: none;
     }
-
-    /* Nuovo stile per il link HomePage */
     .menu ul li:first-child a {
       color: #a30101;
+    }
+    .glitch-link {
+      position: relative;
+      display: inline-block;
+      color: white;
+    }
+    .glitch-link .char {
+      display: inline-block;
+      animation: glitch-anim 3s infinite;
+      color: white;
+    }
+    @keyframes glitch-anim {
+      0%, 70% { transform: translate(0); opacity: 1; }
+      72% { transform: translate(-2px, 2px); opacity: 0.8; }
+      74% { transform: translate(2px, -1px); opacity: 0.6; }
+      76% { transform: translate(-1px, 1px); opacity: 0.8; }
+      78% { transform: translate(1px, -2px); opacity: 0.6; }
+      80%, 100% { transform: translate(0); opacity: 1; }
     }
   </style>
 </head>
@@ -60,7 +71,7 @@
         <ul>
           <li>/ <a href="index.html">HomePage</a></li>
           <li>/ <a href="musica.html">My jam</a></li>
-          <li>/ <a href="untitled.html">Abstergo Industries</a></li>
+          <li>/ <a href="untitled.html" class="glitch-link" id="abstergo-link">Abstergo Industries</a></li>
         </ul>
       </div>
     </header>
@@ -82,5 +93,67 @@
       <div class="c">© 2025. All rights are reserved.</div>
     </footer>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const link = document.getElementById('abstergo-link');
+      const originalText = link.textContent;
+      const maxLength = originalText.length; // Lunghezza di "Abstergo Industries" (18 caratteri)
+      
+      // Split del testo originale in caratteri
+      link.innerHTML = '';
+      for (let i = 0; i < originalText.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = originalText[i];
+        span.style.color = 'white';
+        link.appendChild(span);
+      }
+      
+      // Genera una stringa casuale senza superare maxLength
+      function getRandomGlitchText() {
+        const chars = "!@#$%&*+-=?[]{}<>";
+        let result = "";
+        const length = Math.floor(Math.random() * maxLength) + 1; // Massimo maxLength
+        for (let i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+      }
+      
+      // Effetto glitch
+      function applyGlitch() {
+        const chars = link.querySelectorAll('.char');
+        const glitchIntensity = 0.3;
+        
+        for (let i = 0; i < chars.length; i++) {
+          if (Math.random() < glitchIntensity) {
+            const glitchText = getRandomGlitchText();
+            // Assicura che non vada oltre la lunghezza originale
+            if (i + glitchText.length <= maxLength) {
+              for (let j = 0; j < glitchText.length; j++) {
+                if (chars[i + j]) {
+                  chars[i + j].textContent = glitchText[j];
+                  chars[i + j].style.color = 'white';
+                  
+                  // Ritorno alla normalità dopo un delay
+                  setTimeout(() => {
+                    if (chars[i + j]) {
+                      chars[i + j].textContent = originalText[i + j];
+                      chars[i + j].style.color = 'white';
+                    }
+                  }, 100 + Math.random() * 400);
+                }
+              }
+            }
+          }
+        }
+        
+        setTimeout(applyGlitch, 50 + Math.random() * 450);
+      }
+      
+      applyGlitch();
+    });
+  </script>
 </body>
 </html>
