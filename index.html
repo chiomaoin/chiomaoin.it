@@ -43,6 +43,12 @@
             transform: translate(-50%, 0);
         }
         
+        .container.disabled {
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
         .immagine {
             width: 10rem;
             height: 10rem;
@@ -94,8 +100,8 @@
             text-decoration: none;
             pointer-events: auto;
             transition: color 0.2s ease;
-            white-space: nowrap; /* Impedisce il ritorno a capo del testo */
-            display: inline-block; /* Mantiene il comportamento del link */
+            white-space: nowrap;
+            display: inline-block;
         }
         
         .didascalia-musica a:hover {
@@ -133,15 +139,42 @@
 
     <script>
         const container = document.getElementById('container');
+        let isAnimating = false;
+        const animationDuration = 500; // 0.5s come specificato nel CSS
         
-        // Gestisce solo il click sul container (non sui link)
+        function toggleAnimation() {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            container.classList.add('disabled');
+            
+            // Aggiungiamo un piccolo ritardo per garantire che la classe disabled venga applicata
+            requestAnimationFrame(() => {
+                container.classList.toggle('spostato');
+                
+                // Usiamo transitionend per rilevare la fine dell'animazione
+                const handleAnimationEnd = () => {
+                    container.removeEventListener('transitionend', handleAnimationEnd);
+                    isAnimating = false;
+                    container.classList.remove('disabled');
+                };
+                
+                container.addEventListener('transitionend', handleAnimationEnd);
+                
+                // Timeout di fallback nel caso transitionend non venga triggerato
+                setTimeout(() => {
+                    container.removeEventListener('transitionend', handleAnimationEnd);
+                    isAnimating = false;
+                    container.classList.remove('disabled');
+                }, animationDuration + 100);
+            });
+        }
+        
         container.addEventListener('click', function(e) {
-            // Se il click è su un link, non fare il toggle
             if (e.target.tagName === 'A') {
-                e.stopPropagation();
                 return;
             }
-            container.classList.toggle('spostato');
+            toggleAnimation();
         });
     </script>
 </body>
