@@ -1,61 +1,148 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8">
-  <title>チオマオイン</title>
-  <script>
-if(window.location.pathname.endsWith('index.html')) {
-    history.replaceState({}, '', window.location.pathname.replace('index.html', ''));
-}
-</script>
-  <link rel="stylesheet" href="stylescript/styles.css">
-  <style>
-    body {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    .media-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    img {
-      -webkit-user-drag: none;
-      -khtml-user-drag: none;
-      -moz-user-drag: none;
-      -o-user-drag: none;
-      user-drag: none;
-      pointer-events: none;
-    }
-    .menu ul li:first-child a {
-      color: #a30101;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Animata</title>
+    <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('https://files.catbox.moe/pd6cmx.woff') format('woff');
+        }
+        
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            height: 100vh;
+            font-family: 'CustomFont', Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .container.spostato {
+            top: 2rem;
+            transform: translate(-50%, 0);
+        }
+        
+        .immagine {
+            width: 10rem;
+            height: 10rem;
+            object-fit: contain;
+            -webkit-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+        
+        .didascalia-container {
+            margin-top: 1.5rem;
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .didascalia {
+            position: absolute;
+            width: 100%;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            transition: opacity 0.3s ease;
+            text-align: center;
+            left: 0;
+        }
+        
+        .didascalia.k001 {
+            opacity: 1;
+        }
+        
+        .didascalia.wav {
+            opacity: 0;
+        }
+        
+        .didascalia-musica {
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            text-align: center;
+            line-height: 1.4;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+            width: 100%;
+        }
+        
+        .didascalia-musica a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            pointer-events: auto;
+            transition: color 0.2s ease;
+            white-space: nowrap; /* Impedisce il ritorno a capo del testo */
+            display: inline-block; /* Mantiene il comportamento del link */
+        }
+        
+        .didascalia-musica a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        
+        .container.spostato .didascalia.k001 {
+            opacity: 0;
+        }
+        
+        .container.spostato .didascalia.wav {
+            opacity: 1;
+        }
+        
+        .container.spostato .didascalia-musica {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="menu">
-        <ul>
-          <li>/ <a href="index.html">HomePage</a></li>
-          <li>/ <a href="musica.html">My jam</a></li>
-        </ul>
-      </div>
-    </header>
-    <main>
-      <div class="media-container">
-        <img width="200" src="https://sendou.ink/static-assets/badges/crest.gif" 
-             draggable="false" 
-             oncontextmenu="return false;" />
-      </div>
-      <h1 id="ブルナリチャードの個人的ブログ">Luca Dante</h1>
-      <p>Mi piace lo yogurt greco.</p>
-    </main>
-    <footer>
-      <div class="c">© 2025. All rights are reserved.</div>
-    </footer>
-  </div>
+    <div class="container" id="container">
+        <img src="https://files.catbox.moe/tquu36.gif" alt="GIF animata" class="immagine">
+        <div class="didascalia-container">
+            <span class="didascalia k001">K-oo1</span>
+            <span class="didascalia wav">yoma</span>
+        </div>
+        <div class="didascalia-musica">
+            <a href="https://youtu.be/j9Sn1nFGQQ8?si=udTDaGYTHVjU3_Cu" target="_blank">"Color Your Night" - Lotus juice</a><br>
+            <a href="https://youtu.be/J6dl8Gicvv0?si=ljXRPXWXujS6REJ-" target="_blank">"WW3" - Ye</a><br>
+            <a href="https://youtu.be/oJf5FYdS0Rk?si=DVKevG_T3smRwnSK" target="_blank">"MNGSNT" - Sfera, Shiva</a><br>
+            <a href="https://youtu.be/UilJwSCHv0Y?si=tOKWmvCcW0wxB3cy" target="_blank">"The Bell" - Yeat</a>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        
+        // Gestisce solo il click sul container (non sui link)
+        container.addEventListener('click', function(e) {
+            // Se il click è su un link, non fare il toggle
+            if (e.target.tagName === 'A') {
+                e.stopPropagation();
+                return;
+            }
+            container.classList.toggle('spostato');
+        });
+    </script>
 </body>
 </html>
