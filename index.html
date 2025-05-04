@@ -140,11 +140,19 @@
     <script>
         const container = document.getElementById('container');
         let isAnimating = false;
+        let lastClickTime = 0;
         const animationDuration = 500; // 0.5s come specificato nel CSS
+        const clickCooldown = 500; // 1 secondo di cooldown tra i click
         
         function toggleAnimation() {
-            if (isAnimating) return;
+            const now = Date.now();
             
+            // Verifica se è passato abbastanza tempo dall'ultimo click
+            if (isAnimating || (now - lastClickTime) < clickCooldown) {
+                return;
+            }
+            
+            lastClickTime = now;
             isAnimating = true;
             container.classList.add('disabled');
             
