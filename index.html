@@ -7,7 +7,12 @@
     <style>
         @font-face {
             font-family: 'CustomFont';
-            src: url('https://files.catbox.moe/pd6cmx.woff') format('woff');
+            src: url('https://files.catbox.moe/1wrjl5.woff2') format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'SferaFont';
+            src: url('https://files.catbox.moe/qo3kn5.woff2') format('woff2');
         }
         
         * {
@@ -21,16 +26,20 @@
             margin: 0;
             padding: 0;
             background-color: #000000;
+            background-image: url('https://files.catbox.moe/6o8dao.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             height: 100vh;
             font-family: 'CustomFont', Arial, sans-serif;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -39,8 +48,7 @@
         }
         
         .container.spostato {
-            top: 2rem;
-            transform: translate(-50%, 0);
+            transform: translateY(-50%);
         }
         
         .container.disabled {
@@ -102,6 +110,15 @@
             transition: color 0.2s ease;
             white-space: nowrap;
             display: inline-block;
+            font-family: 'CustomFont', Arial, sans-serif;
+        }
+        
+        .didascalia-musica a.sfera-font {
+            font-family: 'CustomFont', Arial, sans-serif;
+        }
+        
+        .didascalia-musica a.sfera-font span {
+            font-family: 'SferaFont', Arial, sans-serif;
         }
         
         .didascalia-musica a:hover {
@@ -124,16 +141,13 @@
 </head>
 <body>
     <div class="container" id="container">
-        <img src="https://files.catbox.moe/1qp7i0.svg" class="immagine">
+        <img src="https://files.catbox.moe/xe5fmf.gif" class="immagine">
         <div class="didascalia-container">
-            <span class="didascalia k001">K-oo1</span>
-            <span class="didascalia wav">yoma</span>
+            <span class="didascalia k001">Kyoma</span>
+            <span class="didascalia wav">/s/ - sounds</span>
         </div>
         <div class="didascalia-musica">
-            <a href="https://youtu.be/j9Sn1nFGQQ8?si=udTDaGYTHVjU3_Cu" target="_blank">"Color Your Night" - Lotus juice</a><br>
-            <a href="https://youtu.be/J6dl8Gicvv0?si=ljXRPXWXujS6REJ-" target="_blank">"WW3" - Ye</a><br>
-            <a href="https://youtu.be/oJf5FYdS0Rk?si=DVKevG_T3smRwnSK" target="_blank">"MNGSNT" - Sfera, Shiva</a><br>
-            <a href="https://youtu.be/UilJwSCHv0Y?si=tOKWmvCcW0wxB3cy" target="_blank">"The Bell" - Yeat</a>
+            <a href="https://youtu.be/oJf5FYdS0Rk?si=DVKevG_T3smRwnSK" target="_blank" class="sfera-font">"MNGSNT" - <span>Sfera, Shiva</span></a><br>
         </div>
     </div>
 
