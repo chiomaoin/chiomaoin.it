@@ -3,186 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIF Animata</title>
+    <title>Ciao</title>
     <style>
         @font-face {
             font-family: 'CustomFont';
-            src: url('https://files.catbox.moe/pd6cmx.woff') format('woff');
-        }
-        
-        * {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+            src: url('https://files.catbox.moe/1wrjl5.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
         }
         
         body {
+            background-color: #000000;
+            color: #EEEEEE;
+            font-family: 'CustomFont', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            font-family: 'CustomFont', Arial, sans-serif;
-            overflow: hidden;
+            text-align: center;
+            position: relative;
+            overflow-x: hidden;
         }
         
-        .container {
+        h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            padding: 0;
+            transition: filter 0.3s;
+        }
+        
+        .logo {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 35px;
+            left: 55px;
+            width: 100px;
+            height: 100px;
+            filter: brightness(0) invert(1);
+            object-fit: contain;
+            z-index: 10;
+        }
+        
+        .equals-lines {
+            position: absolute;
+            top: 35px;
+            right: 55px;
+            width: 100px;
+            height: 100px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            z-index: 10;
         }
-        
-        .container.spostato {
-            top: 2rem;
-            transform: translate(-50%, 0);
-        }
-        
-        .container.disabled {
-            cursor: not-allowed;
-            pointer-events: none;
-            opacity: 0.8;
-        }
-        
-        .immagine {
-            width: 10rem;
-            height: 10rem;
-            object-fit: contain;
-            -webkit-user-drag: none;
-            user-drag: none;
-            pointer-events: none;
-        }
-        
-        .didascalia-container {
-            margin-top: 1.5rem;
-            position: relative;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .didascalia {
+
+        .circle {
             position: absolute;
-            width: 100%;
-            color: #FFFFFF;
-            font-size: 1.1rem;
-            line-height: 1.5;
-            transition: opacity 0.3s ease;
-            text-align: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(238, 238, 238, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .equals-lines.active .circle {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .line {
+            width: 35px;
+            height: 6px;
+            background-color: #EEEEEE;
+            margin: 5px 0;
+            position: absolute;
+            transform-origin: center;
+        }
+
+        /* Prima linea - diventa la parte superiore della X */
+        .line:first-child {
+            transform: translateY(-8px);
+        }
+
+        /* Seconda linea - diventa la parte inferiore della X */
+        .line:last-child {
+            transform: translateY(8px);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -45%;
+            width: 45%;
+            height: 100vh;
+            background-color: #111;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            transition: right 0.4s ease-out;
+            z-index: 5;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
             left: 0;
-        }
-        
-        .didascalia.k001 {
-            opacity: 1;
-        }
-        
-        .didascalia.wav {
-            opacity: 0;
-        }
-        
-        .didascalia-musica {
-            margin-top: 2rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            text-align: center;
-            line-height: 1.4;
-            transition: opacity 0.3s ease;
-            opacity: 0;
             width: 100%;
-        }
-        
-        .didascalia-musica a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            pointer-events: auto;
-            transition: color 0.2s ease;
-            white-space: nowrap;
-            display: inline-block;
-        }
-        
-        .didascalia-musica a:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-        
-        .container.spostato .didascalia.k001 {
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
             opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 4;
         }
-        
-        .container.spostato .didascalia.wav {
+
+        .overlay.active {
             opacity: 1;
-        }
-        
-        .container.spostato .didascalia-musica {
-            opacity: 1;
+            visibility: visible;
         }
     </style>
+    <!-- Aggiunta la libreria GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
-    <div class="container" id="container">
-        <img src="https://files.catbox.moe/tquu36.gif" alt="GIF animata" class="immagine">
-        <div class="didascalia-container">
-            <span class="didascalia k001">K-oo1</span>
-            <span class="didascalia wav">yoma</span>
-        </div>
-        <div class="didascalia-musica">
-            <a href="https://youtu.be/j9Sn1nFGQQ8?si=udTDaGYTHVjU3_Cu" target="_blank">"Color Your Night" - Lotus juice</a><br>
-            <a href="https://youtu.be/J6dl8Gicvv0?si=ljXRPXWXujS6REJ-" target="_blank">"WW3" - Ye</a><br>
-            <a href="https://youtu.be/oJf5FYdS0Rk?si=DVKevG_T3smRwnSK" target="_blank">"MNGSNT" - Sfera, Shiva</a><br>
-            <a href="https://youtu.be/UilJwSCHv0Y?si=tOKWmvCcW0wxB3cy" target="_blank">"The Bell" - Yeat</a>
-        </div>
+    <img src="https://files.catbox.moe/5id0ev.ico" alt="Logo" class="logo">
+    <div class="equals-lines" id="equalsBtn">
+        <div class="circle"></div>
+        <div class="line" id="line1"></div>
+        <div class="line" id="line2"></div>
     </div>
+    <h1 id="mainTitle">EEEEEE_</h1>
+
+    <div class="sidebar" id="sidebar"></div>
+    <div class="overlay" id="overlay"></div>
 
     <script>
-        const container = document.getElementById('container');
-        let isAnimating = false;
-        let lastClickTime = 0;
-        const animationDuration = 500; // 0.5s come specificato nel CSS
-        const clickCooldown = 500; // 1 secondo di cooldown tra i click
+        const equalsBtn = document.getElementById('equalsBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mainTitle = document.getElementById('mainTitle');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
         
-        function toggleAnimation() {
-            const now = Date.now();
-            
-            // Verifica se è passato abbastanza tempo dall'ultimo click
-            if (isAnimating || (now - lastClickTime) < clickCooldown) {
-                return;
-            }
-            
-            lastClickTime = now;
-            isAnimating = true;
-            container.classList.add('disabled');
-            
-            // Aggiungiamo un piccolo ritardo per garantire che la classe disabled venga applicata
-            requestAnimationFrame(() => {
-                container.classList.toggle('spostato');
-                
-                // Usiamo transitionend per rilevare la fine dell'animazione
-                const handleAnimationEnd = () => {
-                    container.removeEventListener('transitionend', handleAnimationEnd);
-                    isAnimating = false;
-                    container.classList.remove('disabled');
-                };
-                
-                container.addEventListener('transitionend', handleAnimationEnd);
-                
-                // Timeout di fallback nel caso transitionend non venga triggerato
-                setTimeout(() => {
-                    container.removeEventListener('transitionend', handleAnimationEnd);
-                    isAnimating = false;
-                    container.classList.remove('disabled');
-                }, animationDuration + 100);
-            });
-        }
+        let menuOpen = false;
         
-        container.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A') {
-                return;
+        // Creazione della timeline GSAP
+        const menuTl = gsap.timeline({paused: true});
+        
+        // Animazione per aprire il menu (diventare X)
+        menuTl
+            .to([line1, line2], {
+                duration: 0.3,
+                height: 3.5,
+                width: 16.5,
+                ease: "power2.inOut"
+            }, 0)
+            .to(line1, {
+                duration: 0.4,
+                y: 0,
+                rotation: 45,
+                ease: "back.out(1.2)"
+            }, 0)
+            .to(line2, {
+                duration: 0.4,
+                y: 0,
+                rotation: -45,
+                ease: "back.out(1.2)"
+            }, 0)
+            .to('.circle', {
+                duration: 0.3,
+                opacity: 1,
+                scale: 1,
+                ease: "sine.out"
+            }, 0);
+
+        equalsBtn.addEventListener('click', function() {
+            menuOpen = !menuOpen;
+            
+            if(menuOpen) {
+                menuTl.play();
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+                mainTitle.style.filter = 'brightness(0.7)';
+            } else {
+                menuTl.reverse();
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                mainTitle.style.filter = 'brightness(1)';
             }
-            toggleAnimation();
+        });
+
+        overlay.addEventListener('click', function() {
+            if(menuOpen) {
+                menuTl.reverse();
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                mainTitle.style.filter = 'brightness(1)';
+                menuOpen = false;
+            }
         });
     </script>
 </body>
