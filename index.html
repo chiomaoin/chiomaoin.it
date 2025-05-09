@@ -3,18 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIF Animata</title>
+    <title>GIF</title>
     <style>
-        @font-face {
-            font-family: 'CustomFont';
-            src: url('https://files.catbox.moe/1wrjl5.woff2') format('woff2');
-        }
-        
-        @font-face {
-            font-family: 'SferaFont';
-            src: url('https://files.catbox.moe/qo3kn5.woff2') format('woff2');
-        }
-        
         * {
             user-select: none;
             -webkit-user-select: none;
@@ -31,7 +21,6 @@
             background-position: center;
             background-repeat: no-repeat;
             height: 100vh;
-            font-family: 'CustomFont', Arial, sans-serif;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -43,18 +32,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-        
-        .container.spostato {
-            transform: translateY(-50%);
-        }
-        
-        .container.disabled {
-            cursor: not-allowed;
-            pointer-events: none;
-            opacity: 0.8;
         }
         
         .immagine {
@@ -65,138 +42,11 @@
             user-drag: none;
             pointer-events: none;
         }
-        
-        .didascalia-container {
-            margin-top: 1.5rem;
-            position: relative;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .didascalia {
-            position: absolute;
-            width: 100%;
-            color: #FFFFFF;
-            font-size: 1.1rem;
-            line-height: 1.5;
-            transition: opacity 0.3s ease;
-            text-align: center;
-            left: 0;
-        }
-        
-        .didascalia.k001 {
-            opacity: 1;
-        }
-        
-        .didascalia.wav {
-            opacity: 0;
-        }
-        
-        .didascalia-musica {
-            margin-top: 2rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            text-align: center;
-            line-height: 1.4;
-            transition: opacity 0.3s ease;
-            opacity: 0;
-            width: 100%;
-        }
-        
-        .didascalia-musica a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            pointer-events: auto;
-            transition: color 0.2s ease;
-            white-space: nowrap;
-            display: inline-block;
-            font-family: 'CustomFont', Arial, sans-serif;
-        }
-        
-        .didascalia-musica a.sfera-font {
-            font-family: 'CustomFont', Arial, sans-serif;
-        }
-        
-        .didascalia-musica a.sfera-font span {
-            font-family: 'SferaFont', Arial, sans-serif;
-        }
-        
-        .didascalia-musica a:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-        
-        .container.spostato .didascalia.k001 {
-            opacity: 0;
-        }
-        
-        .container.spostato .didascalia.wav {
-            opacity: 1;
-        }
-        
-        .container.spostato .didascalia-musica {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
-    <div class="container" id="container">
+    <div class="container">
         <img src="https://files.catbox.moe/xe5fmf.gif" class="immagine">
-        <div class="didascalia-container">
-            <span class="didascalia wav">/s/ - sounds</span>
-        </div>
-        <div class="didascalia-musica">
-            <a href="https://youtu.be/oJf5FYdS0Rk?si=DVKevG_T3smRwnSK" target="_blank" class="sfera-font">"MNGSNT" - <span>Sfera, Shiva</span></a><br>
-        </div>
     </div>
-
-    <script>
-        const container = document.getElementById('container');
-        let isAnimating = false;
-        let lastClickTime = 0;
-        const animationDuration = 500; // 0.5s come specificato nel CSS
-        const clickCooldown = 500; // 1 secondo di cooldown tra i click
-        
-        function toggleAnimation() {
-            const now = Date.now();
-            
-            // Verifica se è passato abbastanza tempo dall'ultimo click
-            if (isAnimating || (now - lastClickTime) < clickCooldown) {
-                return;
-            }
-            
-            lastClickTime = now;
-            isAnimating = true;
-            container.classList.add('disabled');
-            
-            // Aggiungiamo un piccolo ritardo per garantire che la classe disabled venga applicata
-            requestAnimationFrame(() => {
-                container.classList.toggle('spostato');
-                
-                // Usiamo transitionend per rilevare la fine dell'animazione
-                const handleAnimationEnd = () => {
-                    container.removeEventListener('transitionend', handleAnimationEnd);
-                    isAnimating = false;
-                    container.classList.remove('disabled');
-                };
-                
-                container.addEventListener('transitionend', handleAnimationEnd);
-                
-                // Timeout di fallback nel caso transitionend non venga triggerato
-                setTimeout(() => {
-                    container.removeEventListener('transitionend', handleAnimationEnd);
-                    isAnimating = false;
-                    container.classList.remove('disabled');
-                }, animationDuration + 100);
-            });
-        }
-        
-        container.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A') {
-                return;
-            }
-            toggleAnimation();
-        });
-    </script>
 </body>
 </html>
